@@ -16,6 +16,7 @@ import { Footer } from "@/components/Footer.tsx";
 
 const defaultData: SignatureData = {
   logo: null,
+  logoSize: 48,
   name: "John Doe",
   title: "Product Designer",
   company: "Acme Inc.",

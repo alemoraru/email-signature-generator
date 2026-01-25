@@ -72,6 +72,7 @@ export function SignaturePreview({
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
 
   const validLinks = data.links.filter((l) => l.url);
+  const logoSize = data.logoSize || 48;
 
   // Classic style - Logo on left, info on right
   if (data.style === "classic") {
@@ -94,11 +95,11 @@ export function SignaturePreview({
                 <img
                   src={data.logo}
                   alt="Logo"
-                  width="60"
-                  height="60"
+                  width={logoSize}
+                  height={logoSize}
                   style={{
-                    width: "60px",
-                    height: "60px",
+                    width: `${logoSize}px`,
+                    height: `${logoSize}px`,
                     objectFit: "contain",
                     borderRadius: "8px",
                     display: "block",
@@ -213,11 +214,11 @@ export function SignaturePreview({
                         <img
                           src={data.logo}
                           alt="Logo"
-                          width="48"
-                          height="48"
+                          width={logoSize}
+                          height={logoSize}
                           style={{
-                            width: "48px",
-                            height: "48px",
+                            width: `${logoSize}px`,
+                            height: `${logoSize}px`,
                             objectFit: "contain",
                             borderRadius: "6px",
                             display: "block",
@@ -354,7 +355,15 @@ export function SignaturePreview({
                 )}
               </p>
             )}
-            <p style={{ margin: "0", display: "flex", alignItems: "center", flexWrap: "wrap", gap: "0" }}>
+            <p
+              style={{
+                margin: "0",
+                display: "flex",
+                alignItems: "center",
+                flexWrap: "wrap",
+                gap: "0",
+              }}
+            >
               {data.email && (
                 <>
                   <a
@@ -367,12 +376,17 @@ export function SignaturePreview({
                     {data.email}
                   </a>
                   {validLinks.length > 0 && (
-                    <span style={{ color: mutedColor, margin: "0 6px" }}>|</span>
+                    <span style={{ color: mutedColor, margin: "0 6px" }}>
+                      |
+                    </span>
                   )}
                 </>
               )}
               {validLinks.map((link, index) => (
-                <span key={link.id} style={{ display: "inline-flex", alignItems: "center" }}>
+                <span
+                  key={link.id}
+                  style={{ display: "inline-flex", alignItems: "center" }}
+                >
                   <a
                     href={link.url}
                     style={{
@@ -383,7 +397,9 @@ export function SignaturePreview({
                     {renderLinkContent(link, primaryColor)}
                   </a>
                   {index < validLinks.length - 1 && (
-                    <span style={{ color: mutedColor, margin: "0 6px" }}>|</span>
+                    <span style={{ color: mutedColor, margin: "0 6px" }}>
+                      |
+                    </span>
                   )}
                 </span>
               ))}

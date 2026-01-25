@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import {
   Tooltip,
   TooltipContent,
@@ -124,23 +125,43 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Logo</h3>
         {data.logo ? (
-          <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-lg border border-border overflow-hidden bg-surface">
-              <img
-                src={data.logo}
-                alt="Logo"
-                className="w-full h-full object-contain"
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="relative w-10 h-10 rounded-lg border border-border overflow-hidden bg-surface">
+                <img
+                  src={data.logo}
+                  alt="Logo"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={removeLogo}
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 text-xs"
+              >
+                <X className="w-3 h-3 mr-1" />
+                Remove
+              </Button>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs text-muted-foreground">
+                  Logo Size
+                </Label>
+                <span className="text-xs text-muted-foreground font-mono">
+                  {data.logoSize}px
+                </span>
+              </div>
+              <Slider
+                value={[data.logoSize]}
+                onValueChange={(value) => updateField("logoSize", value[0])}
+                min={32}
+                max={80}
+                step={2}
+                className="w-full"
               />
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={removeLogo}
-              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 text-xs"
-            >
-              <X className="w-3 h-3 mr-1" />
-              Remove
-            </Button>
           </div>
         ) : (
           <label className="flex items-center gap-3 px-3 py-2 border border-dashed border-border rounded-lg cursor-pointer hover:border-muted-foreground/50 transition-colors bg-surface/50">

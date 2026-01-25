@@ -22,6 +22,7 @@ export interface SignatureColors {
 
 export interface SignatureData {
   logo: string | null;
+  logoSize: number;
   name: string;
   title: string;
   company: string;
