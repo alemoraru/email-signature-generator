@@ -40,7 +40,9 @@ export function EmailTemplate({ data, device }: EmailTemplateProps) {
         </div>
         <div className="flex">
           <span className="text-muted-foreground w-16">Subject:</span>
-          <span className="text-foreground">Following up on our conversation</span>
+          <span className="text-foreground">
+            Following up on our conversation
+          </span>
         </div>
       </div>
 
@@ -49,12 +51,13 @@ export function EmailTemplate({ data, device }: EmailTemplateProps) {
         <div className="space-y-4 text-sm text-foreground leading-relaxed">
           <p>Hi there,</p>
           <p>
-            Thank you for taking the time to meet with me today. I really enjoyed our conversation
-            about the upcoming project and I'm excited about the potential collaboration.
+            Thank you for taking the time to meet with me today. I really
+            enjoyed our conversation about the upcoming project and I'm excited
+            about the potential collaboration.
           </p>
           <p>
-            I've attached the documents we discussed. Please let me know if you have any questions
-            or if there's anything else you need from my end.
+            I've attached the documents we discussed. Please let me know if you
+            have any questions or if there's anything else you need from my end.
           </p>
           <p>Looking forward to hearing from you soon.</p>
           <p>Best regards,</p>

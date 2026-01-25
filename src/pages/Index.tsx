@@ -4,7 +4,7 @@ import { EmailTemplate } from "@/components/EmailTemplate";
 import { DeviceToggle } from "@/components/DeviceToggle";
 import { CopyButton } from "@/components/CopyButton";
 import { HowToUseDialog } from "@/components/HowToUseDialog";
-import { Footer } from "@/components/Footer";
+import { StyleSelector } from "@/components/StyleSelector";
 import type { SignatureData, DeviceType } from "@/types/signature";
 import { Mail } from "lucide-react";
 
@@ -21,6 +21,7 @@ const defaultData: SignatureData = {
   colors: {
     primary: "#1e40af",
   },
+  style: "classic",
 };
 
 const Index = () => {
@@ -28,7 +29,7 @@ const Index = () => {
   const [device, setDevice] = useState<DeviceType>("desktop");
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
@@ -37,7 +38,9 @@ const Index = () => {
               <Mail className="w-4 h-4 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-base font-semibold text-foreground">Signature</h1>
+              <h1 className="text-base font-semibold text-foreground">
+                Signature
+              </h1>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -53,7 +56,14 @@ const Index = () => {
           {/* Left Panel - Form */}
           <aside className="flex flex-col">
             <div className="bg-card rounded-xl border border-border p-5 shadow-subtle flex-1 flex flex-col">
-              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
+              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+                Style
+              </h2>
+              <StyleSelector
+                value={data.style}
+                onChange={(style) => setData({ ...data, style })}
+              />
+              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mt-5 mb-4">
                 Customize
               </h2>
               <div className="flex-1">
@@ -77,9 +87,6 @@ const Index = () => {
           </section>
         </div>
       </main>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

@@ -24,7 +24,10 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [customColor, setCustomColor] = useState("");
 
-  const updateField = <K extends keyof SignatureData>(field: K, value: SignatureData[K]) => {
+  const updateField = <K extends keyof SignatureData>(
+    field: K,
+    value: SignatureData[K],
+  ) => {
     onChange({ ...data, [field]: value });
   };
 
@@ -51,15 +54,22 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
     updateField("links", [...data.links, newLink]);
   };
 
-  const updateLink = (id: string, field: keyof Omit<SignatureLink, "id">, value: string) => {
+  const updateLink = (
+    id: string,
+    field: keyof Omit<SignatureLink, "id">,
+    value: string,
+  ) => {
     const updatedLinks = data.links.map((link) =>
-      link.id === id ? { ...link, [field]: value } : link
+      link.id === id ? { ...link, [field]: value } : link,
     );
     updateField("links", updatedLinks);
   };
 
   const removeLink = (id: string) => {
-    updateField("links", data.links.filter((link) => link.id !== id));
+    updateField(
+      "links",
+      data.links.filter((link) => link.id !== id),
+    );
   };
 
   const handleDragStart = (index: number) => {
@@ -105,9 +115,18 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
         {data.logo ? (
           <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 rounded-lg border border-border overflow-hidden bg-surface">
-              <img src={data.logo} alt="Logo" className="w-full h-full object-contain" />
+              <img
+                src={data.logo}
+                alt="Logo"
+                className="w-full h-full object-contain"
+              />
             </div>
-            <Button variant="ghost" size="sm" onClick={removeLogo} className="text-muted-foreground hover:text-destructive hover:bg-red-50 dark:hover:bg-red-950/20 h-8 text-xs">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={removeLogo}
+              className="text-muted-foreground hover:text-destructive hover:bg-red-50 dark:hover:bg-red-950/20 h-8 text-xs"
+            >
               <X className="w-3 h-3 mr-1" />
               Remove
             </Button>
@@ -116,7 +135,12 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
           <label className="flex items-center gap-3 px-3 py-2 border border-dashed border-border rounded-lg cursor-pointer hover:border-muted-foreground/50 transition-colors bg-surface/50">
             <Upload className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Upload logo</span>
-            <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleLogoUpload}
+            />
           </label>
         )}
       </section>
@@ -126,7 +150,9 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
         <h3 className="text-sm font-medium text-foreground">Information</h3>
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label htmlFor="name" className="text-xs text-muted-foreground">Name *</Label>
+            <Label htmlFor="name" className="text-xs text-muted-foreground">
+              Name *
+            </Label>
             <Input
               id="name"
               value={data.name}
@@ -136,7 +162,9 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="title" className="text-xs text-muted-foreground">Title</Label>
+            <Label htmlFor="title" className="text-xs text-muted-foreground">
+              Title
+            </Label>
             <Input
               id="title"
               value={data.title}
@@ -146,7 +174,9 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="company" className="text-xs text-muted-foreground">Company</Label>
+            <Label htmlFor="company" className="text-xs text-muted-foreground">
+              Company
+            </Label>
             <Input
               id="company"
               value={data.company}
@@ -156,7 +186,9 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             />
           </div>
           <div className="space-y-1">
-            <Label htmlFor="email" className="text-xs text-muted-foreground">Email</Label>
+            <Label htmlFor="email" className="text-xs text-muted-foreground">
+              Email
+            </Label>
             <Input
               id="email"
               type="email"
@@ -173,10 +205,10 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-foreground">Links</h3>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={addLink} 
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={addLink}
             className="text-accent hover:text-accent hover:bg-accent/10 h-7 text-xs"
           >
             <Plus className="w-3 h-3 mr-1" />
@@ -248,7 +280,11 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
           ))}
           <input
             type="color"
-            value={data.colors.primary.startsWith("#") ? data.colors.primary : "#1e40af"}
+            value={
+              data.colors.primary.startsWith("#")
+                ? data.colors.primary
+                : "#1e40af"
+            }
             onChange={(e) => {
               updatePrimaryColor(e.target.value);
               setCustomColor(e.target.value);
@@ -263,7 +299,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             placeholder="#hex or rgb(r,g,b)"
             className="h-8 text-xs bg-surface border-border flex-1"
           />
-          <div 
+          <div
             className="w-8 h-8 rounded border border-border flex-shrink-0"
             style={{ backgroundColor: data.colors.primary }}
           />

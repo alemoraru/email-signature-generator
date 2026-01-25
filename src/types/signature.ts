@@ -4,6 +4,12 @@ export interface SignatureLink {
   url: string;
 }
 
+export type SignatureStyle = "classic" | "modern" | "minimal";
+
+export interface SignatureColors {
+  primary: string;
+}
+
 export interface SignatureData {
   logo: string | null;
   name: string;
@@ -12,10 +18,7 @@ export interface SignatureData {
   email: string;
   links: SignatureLink[];
   colors: SignatureColors;
+  style: SignatureStyle;
 }
 
-export interface SignatureColors {
-  primary: string;
-}
-
-export type DeviceType = 'desktop' | 'tablet' | 'mobile';
+export type DeviceType = "desktop" | "tablet" | "mobile";
