@@ -12,6 +12,7 @@ import type {
   PreviewTheme,
 } from "@/types/signature";
 import { Mail } from "lucide-react";
+import { Footer } from "@/components/Footer.tsx";
 
 const defaultData: SignatureData = {
   logo: null,
@@ -22,14 +23,14 @@ const defaultData: SignatureData = {
   links: [
     {
       id: "1",
-      label: "LinkedIn",
+      label: "Connect with me",
       url: "https://linkedin.com/in/johndoe",
       provider: "linkedin",
       showIcon: true,
     },
     {
       id: "2",
-      label: "X",
+      label: "Follow me",
       url: "https://x.com/johndoe",
       provider: "x",
       showIcon: true,
@@ -115,6 +116,8 @@ const Index = () => {
           </section>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 };

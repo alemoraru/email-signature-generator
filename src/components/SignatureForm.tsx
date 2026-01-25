@@ -245,36 +245,38 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       {/* Single Color Picker */}
       <section className="space-y-3">
         <h3 className="text-sm font-medium text-foreground">Accent Color</h3>
-        <div className="flex items-center gap-2 flex-wrap">
-          {colorOptions.map((color) => (
-            <button
-              key={color.value}
-              onClick={() => {
-                updatePrimaryColor(color.value);
-                setCustomColor("");
+        <div className="p-3 rounded-lg border border-border/30">
+          <div className="flex items-center gap-2 flex-wrap">
+            {colorOptions.map((color) => (
+              <button
+                key={color.value}
+                onClick={() => {
+                  updatePrimaryColor(color.value);
+                  setCustomColor("");
+                }}
+                className={`w-7 h-7 rounded-full border-2 transition-all ${
+                  data.colors.primary === color.value
+                    ? "border-foreground scale-110"
+                    : "border-transparent hover:scale-105"
+                }`}
+                style={{ backgroundColor: color.value }}
+                title={color.label}
+              />
+            ))}
+            <input
+              type="color"
+              value={
+                data.colors.primary.startsWith("#")
+                  ? data.colors.primary
+                  : "#1e40af"
+              }
+              onChange={(e) => {
+                updatePrimaryColor(e.target.value);
+                setCustomColor(e.target.value);
               }}
-              className={`w-7 h-7 rounded-full border-2 transition-all ${
-                data.colors.primary === color.value
-                  ? "border-foreground scale-110"
-                  : "border-transparent hover:scale-105"
-              }`}
-              style={{ backgroundColor: color.value }}
-              title={color.label}
+              className="w-7 h-7 rounded cursor-pointer border border-border"
             />
-          ))}
-          <input
-            type="color"
-            value={
-              data.colors.primary.startsWith("#")
-                ? data.colors.primary
-                : "#1e40af"
-            }
-            onChange={(e) => {
-              updatePrimaryColor(e.target.value);
-              setCustomColor(e.target.value);
-            }}
-            className="w-7 h-7 rounded cursor-pointer border border-border"
-          />
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Input

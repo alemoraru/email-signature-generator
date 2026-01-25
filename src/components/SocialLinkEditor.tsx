@@ -57,6 +57,7 @@ export function SocialLinkEditor({
         draggedIndex === index ? "opacity-50" : ""
       }`}
     >
+      {/* First row: Drag handle + Selector + Show Icon + Delete */}
       <div className="flex items-center gap-2">
         <GripVertical className="w-3 h-3 text-muted-foreground cursor-grab flex-shrink-0" />
 
@@ -82,35 +83,8 @@ export function SocialLinkEditor({
           </SelectContent>
         </Select>
 
-        <Input
-          value={link.url}
-          onChange={(e) => onUpdate(link.id, "url", e.target.value)}
-          placeholder="https://..."
-          className="flex-1 h-7 text-xs bg-background border-border"
-        />
-
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onRemove(link.id)}
-          className="text-muted-foreground hover:text-destructive h-7 w-7"
-        >
-          <Trash2 className="w-3 h-3" />
-        </Button>
-      </div>
-
-      <div className="flex items-center gap-3 pl-5">
-        {link.provider === "custom" && (
-          <Input
-            value={link.label}
-            onChange={(e) => onUpdate(link.id, "label", e.target.value)}
-            placeholder="Label (e.g. Website)"
-            className="flex-1 h-7 text-xs bg-background border-border"
-          />
-        )}
-
         {hasIconSupport && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-1">
             <Checkbox
               id={`icon-${link.id}`}
               checked={link.showIcon}
@@ -122,10 +96,38 @@ export function SocialLinkEditor({
               htmlFor={`icon-${link.id}`}
               className="text-xs text-muted-foreground cursor-pointer"
             >
-              Show icon
+              Show social icon
             </label>
           </div>
         )}
+
+        {!hasIconSupport && <div className="flex-1" />}
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => onRemove(link.id)}
+          className="text-muted-foreground hover:text-destructive h-7 w-7 flex-shrink-0"
+        >
+          <Trash2 className="w-3 h-3" />
+        </Button>
+      </div>
+
+      {/* Second row: Link + Label */}
+      <div className="flex items-center gap-2 pl-5">
+        <Input
+          value={link.url}
+          onChange={(e) => onUpdate(link.id, "url", e.target.value)}
+          placeholder="https://..."
+          className="flex-1 h-7 text-xs bg-background border-border"
+        />
+
+        <Input
+          value={link.label}
+          onChange={(e) => onUpdate(link.id, "label", e.target.value)}
+          placeholder="Label (optional)"
+          className="flex-1 h-7 text-xs bg-background border-border"
+        />
       </div>
     </div>
   );
