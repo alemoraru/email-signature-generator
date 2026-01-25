@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Plus, Upload, X } from "lucide-react";
 import { SocialLinkEditor } from "@/components/SocialLinkEditor";
 import type { SignatureData, SignatureLink } from "@/types/signature";
@@ -246,37 +252,53 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       <section className="space-y-3">
         <h3 className="text-sm font-medium text-foreground">Accent Color</h3>
         <div className="p-3 rounded-lg border border-border/30">
-          <div className="flex items-center gap-2 flex-wrap">
-            {colorOptions.map((color) => (
-              <button
-                key={color.value}
-                onClick={() => {
-                  updatePrimaryColor(color.value);
-                  setCustomColor("");
-                }}
-                className={`w-7 h-7 rounded-full border-2 transition-all ${
-                  data.colors.primary === color.value
-                    ? "border-foreground scale-110"
-                    : "border-transparent hover:scale-105"
-                }`}
-                style={{ backgroundColor: color.value }}
-                title={color.label}
-              />
-            ))}
-            <input
-              type="color"
-              value={
-                data.colors.primary.startsWith("#")
-                  ? data.colors.primary
-                  : "#1e40af"
-              }
-              onChange={(e) => {
-                updatePrimaryColor(e.target.value);
-                setCustomColor(e.target.value);
-              }}
-              className="w-7 h-7 rounded cursor-pointer border border-border"
-            />
-          </div>
+          <TooltipProvider>
+            <div className="flex items-center gap-2 flex-wrap">
+              {colorOptions.map((color) => (
+                <Tooltip key={color.value}>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => {
+                        updatePrimaryColor(color.value);
+                        setCustomColor("");
+                      }}
+                      className={`w-7 h-7 rounded-full transition-all ${
+                        data.colors.primary === color.value
+                          ? "ring-2 ring-foreground ring-offset-2 ring-offset-background scale-110"
+                          : "border border-border/40 hover:scale-105 hover:border-border"
+                      }`}
+                      style={{ backgroundColor: color.value }}
+                      aria-label={color.label}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{color.label}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <input
+                    type="color"
+                    value={
+                      data.colors.primary.startsWith("#")
+                        ? data.colors.primary
+                        : "#1e40af"
+                    }
+                    onChange={(e) => {
+                      updatePrimaryColor(e.target.value);
+                      setCustomColor(e.target.value);
+                    }}
+                    className="w-7 h-7 rounded cursor-pointer border border-border"
+                    aria-label="Custom color picker"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Custom color</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </TooltipProvider>
         </div>
         <div className="flex items-center gap-2">
           <Input

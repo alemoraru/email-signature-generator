@@ -23,32 +23,33 @@ export function HowToUseDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>How to use</DialogTitle>
+          <DialogTitle>How to use Email Signature Generator?</DialogTitle>
         </DialogHeader>
         <ol className="text-sm text-muted-foreground space-y-3 list-decimal list-inside mt-4">
           <li>
             <span className="text-foreground font-medium">
               Fill in your details
             </span>
-            <p className="text-xs mt-1 ml-5">
+            <p className="text-xs mt-1 ml-4">
               Add your name, title, company, email, and optionally upload a
               logo.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">
-              Add and reorder links
+              Add and customize links
             </span>
-            <p className="text-xs mt-1 ml-5">
-              Add relevant links (LinkedIn, website, etc.) and drag to reorder
-              them.
+            <p className="text-xs mt-1 ml-4">
+              Add relevant links (LinkedIn, website, etc.), then click the edit
+              icon to customize the URL, label, and icon display. Drag links to
+              reorder them.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">
               Pick an accent color
             </span>
-            <p className="text-xs mt-1 ml-5">
+            <p className="text-xs mt-1 ml-4">
               Choose a color for email and links, or enter a custom hex/rgb
               value.
             </p>
@@ -57,14 +58,14 @@ export function HowToUseDialog() {
             <span className="text-foreground font-medium">
               Preview on different devices
             </span>
-            <p className="text-xs mt-1 ml-5">
+            <p className="text-xs mt-1 ml-4">
               Toggle between desktop, tablet, and mobile views to see how it
               looks.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">Copy and paste</span>
-            <p className="text-xs mt-1 ml-5">
+            <p className="text-xs mt-1 ml-4">
               Click "Copy Signature" and paste it into your email client's
               signature settings.
             </p>

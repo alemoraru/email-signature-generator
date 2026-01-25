@@ -9,14 +9,14 @@ interface StyleSelectorProps {
 const styles: { value: SignatureStyle; label: string; description: string }[] =
   [
     {
-      value: "classic",
-      label: "Classic",
-      description: "Traditional layout with logo on left",
-    },
-    {
       value: "modern",
       label: "Modern",
       description: "Clean horizontal divider style",
+    },
+    {
+      value: "classic",
+      label: "Classic",
+      description: "Traditional layout with logo on left",
     },
     {
       value: "minimal",

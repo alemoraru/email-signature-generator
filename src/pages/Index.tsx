@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SignatureForm } from "@/components/SignatureForm";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { DeviceToggle } from "@/components/DeviceToggle";
@@ -39,13 +39,33 @@ const defaultData: SignatureData = {
   colors: {
     primary: "#1e40af",
   },
-  style: "classic",
+  style: "modern",
 };
 
 const Index = () => {
   const [data, setData] = useState<SignatureData>(defaultData);
   const [device, setDevice] = useState<DeviceType>("desktop");
   const [previewTheme, setPreviewTheme] = useState<PreviewTheme>("light");
+
+  // Warn user before leaving/refreshing if they have made changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Check if data differs from default
+      const hasChanges = JSON.stringify(data) !== JSON.stringify(defaultData);
+
+      if (hasChanges) {
+        e.preventDefault();
+        // Modern browsers require returnValue to be set
+        e.returnValue = "";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [data]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -71,7 +91,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container max-w-7xl mx-auto px-4 sm:px-6 py-4 lg:py-5">
-        <div className="grid lg:grid-cols-[400px_1fr] gap-5 lg:items-stretch">
+        <div className="grid lg:grid-cols-[360px_1fr] gap-5 lg:items-stretch">
           {/* Left Panel - Form */}
           <aside className="flex flex-col">
             <div className="bg-card rounded-xl border border-border p-5 shadow-subtle flex-1 flex flex-col">

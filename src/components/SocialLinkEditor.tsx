@@ -1,7 +1,5 @@
 import { GripVertical, Trash2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -9,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { EditLinkDialog } from "@/components/EditLinkDialog";
 import type { SignatureLink, SocialProvider } from "@/types/signature";
 
 interface SocialLinkEditorProps {
@@ -45,63 +44,44 @@ export function SocialLinkEditor({
   onDragOver,
   onDragEnd,
 }: SocialLinkEditorProps) {
-  const hasIconSupport = link.provider !== "custom";
-
   return (
     <div
       draggable
       onDragStart={() => onDragStart(index)}
       onDragOver={(e) => onDragOver(e, index)}
       onDragEnd={onDragEnd}
-      className={`flex flex-col gap-2 p-2 rounded-lg border border-border bg-surface transition-all ${
+      className={`flex items-center gap-2 p-2 rounded-lg border border-border bg-surface transition-all hover:border-border/60 ${
         draggedIndex === index ? "opacity-50" : ""
       }`}
     >
-      {/* First row: Drag handle + Selector + Show Icon + Delete */}
-      <div className="flex items-center gap-2">
-        <GripVertical className="w-3 h-3 text-muted-foreground cursor-grab flex-shrink-0" />
+      <GripVertical className="w-3.5 h-3.5 text-muted-foreground cursor-grab flex-shrink-0" />
 
-        <Select
-          value={link.provider}
-          onValueChange={(value: SocialProvider) =>
-            onUpdate(link.id, "provider", value)
-          }
-        >
-          <SelectTrigger className="w-28 h-7 text-xs">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {socialProviders.map((provider) => (
-              <SelectItem
-                key={provider.value}
-                value={provider.value}
-                className="text-xs"
-              >
-                {provider.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {hasIconSupport && (
-          <div className="flex items-center gap-2 flex-1">
-            <Checkbox
-              id={`icon-${link.id}`}
-              checked={link.showIcon}
-              onCheckedChange={(checked) =>
-                onUpdate(link.id, "showIcon", !!checked)
-              }
-            />
-            <label
-              htmlFor={`icon-${link.id}`}
-              className="text-xs text-muted-foreground cursor-pointer"
+      <Select
+        value={link.provider}
+        onValueChange={(value: SocialProvider) =>
+          onUpdate(link.id, "provider", value)
+        }
+      >
+        <SelectTrigger className="w-32 h-8 text-xs">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {socialProviders.map((provider) => (
+            <SelectItem
+              key={provider.value}
+              value={provider.value}
+              className="text-xs"
             >
-              Show social icon
-            </label>
-          </div>
-        )}
+              {provider.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-        {!hasIconSupport && <div className="flex-1" />}
+      <div className="flex-1" />
+
+      <div className="flex items-center gap-1">
+        <EditLinkDialog link={link} onUpdate={onUpdate} />
 
         <Button
           variant="ghost"
@@ -111,23 +91,6 @@ export function SocialLinkEditor({
         >
           <Trash2 className="w-3 h-3" />
         </Button>
-      </div>
-
-      {/* Second row: Link + Label */}
-      <div className="flex items-center gap-2 pl-5">
-        <Input
-          value={link.url}
-          onChange={(e) => onUpdate(link.id, "url", e.target.value)}
-          placeholder="https://..."
-          className="flex-1 h-7 text-xs bg-background border-border"
-        />
-
-        <Input
-          value={link.label}
-          onChange={(e) => onUpdate(link.id, "label", e.target.value)}
-          placeholder="Label (optional)"
-          className="flex-1 h-7 text-xs bg-background border-border"
-        />
       </div>
     </div>
   );
