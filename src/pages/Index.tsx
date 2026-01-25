@@ -69,17 +69,17 @@ const Index = () => {
   }, [data]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen lg:h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10 flex-shrink-0">
+        <div className="container max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Mail className="w-4 h-4 text-primary-foreground" />
+            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+              <Mail className="w-3.5 h-3.5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-base font-semibold text-foreground">
-                Signature
+              <h1 className="text-sm font-semibold text-foreground">
+                Signature Generator
               </h1>
             </div>
           </div>
@@ -91,30 +91,32 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container max-w-7xl mx-auto px-4 sm:px-6 py-4 lg:py-5">
-        <div className="grid lg:grid-cols-[360px_1fr] gap-5 lg:items-stretch">
+      <main className="container max-w-7xl mx-auto px-4 sm:px-6 py-3 lg:py-3 flex-1 lg:overflow-hidden">
+        <div className="grid lg:grid-cols-[340px_1fr] gap-4 lg:h-full">
           {/* Left Panel - Form */}
-          <aside className="flex flex-col">
-            <div className="bg-card rounded-xl border border-border p-5 shadow-subtle flex-1 flex flex-col">
-              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                Style
-              </h2>
-              <StyleSelector
-                value={data.style}
-                onChange={(style) => setData({ ...data, style })}
-              />
-              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mt-5 mb-4">
-                Customize
-              </h2>
-              <div className="flex-1">
+          <aside className="flex flex-col lg:h-full lg:min-h-0">
+            <div className="bg-card rounded-xl border border-border p-4 shadow-subtle flex flex-col lg:h-full lg:overflow-hidden lg:min-h-0">
+              <div className="flex-shrink-0">
+                <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                  Style
+                </h2>
+                <StyleSelector
+                  value={data.style}
+                  onChange={(style) => setData({ ...data, style })}
+                />
+                <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mt-4 mb-3">
+                  Customize
+                </h2>
+              </div>
+              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-1 lg:min-h-0">
                 <SignatureForm data={data} onChange={setData} />
               </div>
             </div>
           </aside>
 
           {/* Right Panel - Preview */}
-          <section className="flex flex-col">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <section className="flex flex-col lg:h-full min-h-[400px] lg:min-h-0">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Preview
               </h2>
@@ -127,7 +129,7 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="bg-surface rounded-xl border border-border p-4 sm:p-6 flex-1 flex items-start justify-center overflow-x-auto">
+            <div className="bg-surface rounded-xl border border-border p-4 sm:p-6 lg:flex-1 flex items-start justify-center overflow-auto scrollbar-subtle min-h-[300px]">
               <EmailTemplate
                 data={data}
                 device={device}

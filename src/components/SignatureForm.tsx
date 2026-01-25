@@ -28,6 +28,10 @@ const colorOptions = [
   { value: "#ea580c", label: "Orange" },
   { value: "#eba937", label: "Yellow" },
   { value: "#ffffff", label: "White" },
+  { value: "#db2777", label: "Pink" },
+  { value: "#a0522d", label: "Brown" },
+  { value: "#c026d3", label: "Fuchsia" },
+  { value: "#14b8a6", label: "Teal" },
 ];
 
 export function SignatureForm({ data, onChange }: SignatureFormProps) {
@@ -120,7 +124,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Logo Upload - Compact */}
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Logo</h3>
@@ -178,9 +182,9 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       </section>
 
       {/* Basic Info - Compact grid */}
-      <section className="space-y-3">
+      <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Information</h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2">
           <div className="space-y-1">
             <Label htmlFor="name" className="text-xs text-muted-foreground">
               Name *
@@ -234,7 +238,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       </section>
 
       {/* Links - Compact */}
-      <section className="space-y-3">
+      <section className="space-y-2">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-foreground">Links</h3>
           <Button
@@ -270,7 +274,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       </section>
 
       {/* Single Color Picker */}
-      <section className="space-y-3">
+      <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Accent Color</h3>
         <div className="p-3 rounded-lg border border-border/30">
           <TooltipProvider>

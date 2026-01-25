@@ -5,9 +5,9 @@ export function Footer() {
   const githubRepo = "alemoraru/email-signature-generator";
 
   return (
-    <footer className="border-t border-border bg-card/50 backdrop-blur-sm mt-auto">
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-4">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
+    <footer className="border-t border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
+      <div className="container max-w-7xl mx-auto px-4 sm:px-6 py-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-1 text-xs text-muted-foreground">
           <div>
             built by{" "}
             <a
