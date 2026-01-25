@@ -19,6 +19,8 @@ const colorOptions = [
   { value: "#7c3aed", label: "Purple" },
   { value: "#dc2626", label: "Red" },
   { value: "#ea580c", label: "Orange" },
+  { value: "#eba937", label: "Yellow" },
+  { value: "#ffffff", label: "White" },
 ];
 
 export function SignatureForm({ data, onChange }: SignatureFormProps) {
