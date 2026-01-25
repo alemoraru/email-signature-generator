@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, GripVertical, Upload, X } from "lucide-react";
+import { Plus, Upload, X } from "lucide-react";
+import { SocialLinkEditor } from "@/components/SocialLinkEditor";
 import type { SignatureData, SignatureLink } from "@/types/signature";
 
 interface SignatureFormProps {
@@ -50,6 +51,8 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       id: crypto.randomUUID(),
       label: "",
       url: "",
+      provider: "custom",
+      showIcon: false,
     };
     updateField("links", [...data.links, newLink]);
   };
@@ -57,7 +60,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
   const updateLink = (
     id: string,
     field: keyof Omit<SignatureLink, "id">,
-    value: string,
+    value: string | boolean,
   ) => {
     const updatedLinks = data.links.map((link) =>
       link.id === id ? { ...link, [field]: value } : link,
@@ -125,7 +128,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               variant="ghost"
               size="sm"
               onClick={removeLogo}
-              className="text-muted-foreground hover:text-destructive hover:bg-red-50 dark:hover:bg-red-950/20 h-8 text-xs"
+              className="text-muted-foreground hover:text-destructive h-8 text-xs"
             >
               <X className="w-3 h-3 mr-1" />
               Remove
@@ -217,38 +220,17 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
         </div>
         <div className="space-y-2">
           {data.links.map((link, index) => (
-            <div
+            <SocialLinkEditor
               key={link.id}
-              draggable
-              onDragStart={() => handleDragStart(index)}
-              onDragOver={(e) => handleDragOver(e, index)}
+              link={link}
+              index={index}
+              draggedIndex={draggedIndex}
+              onUpdate={updateLink}
+              onRemove={removeLink}
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
               onDragEnd={handleDragEnd}
-              className={`flex items-center gap-2 p-2 rounded-lg border border-border bg-surface transition-all ${
-                draggedIndex === index ? "opacity-50" : ""
-              }`}
-            >
-              <GripVertical className="w-3 h-3 text-muted-foreground cursor-grab flex-shrink-0" />
-              <Input
-                value={link.label}
-                onChange={(e) => updateLink(link.id, "label", e.target.value)}
-                placeholder="Label"
-                className="flex-1 h-7 text-xs bg-background border-border"
-              />
-              <Input
-                value={link.url}
-                onChange={(e) => updateLink(link.id, "url", e.target.value)}
-                placeholder="https://..."
-                className="flex-[2] h-7 text-xs bg-background border-border"
-              />
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => removeLink(link.id)}
-                className="text-muted-foreground hover:text-destructive hover:bg-red-50 dark:hover:bg-red-950/20 h-7 w-7"
-              >
-                <Trash2 className="w-3 h-3" />
-              </Button>
-            </div>
+            />
           ))}
           {data.links.length === 0 && (
             <p className="text-xs text-muted-foreground text-center py-3">

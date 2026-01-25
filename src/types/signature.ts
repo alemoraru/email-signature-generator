@@ -1,7 +1,17 @@
+export type SocialProvider =
+  | "linkedin"
+  | "x"
+  | "github"
+  | "facebook"
+  | "instagram"
+  | "custom";
+
 export interface SignatureLink {
   id: string;
   label: string;
   url: string;
+  provider: SocialProvider;
+  showIcon: boolean;
 }
 
 export type SignatureStyle = "classic" | "modern" | "minimal";
@@ -22,3 +32,5 @@ export interface SignatureData {
 }
 
 export type DeviceType = "desktop" | "tablet" | "mobile";
+
+export type PreviewTheme = "light" | "dark";
