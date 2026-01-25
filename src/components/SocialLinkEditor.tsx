@@ -87,7 +87,7 @@ export function SocialLinkEditor({
           variant="ghost"
           size="icon"
           onClick={() => onRemove(link.id)}
-          className="text-muted-foreground hover:text-destructive h-7 w-7 flex-shrink-0"
+          className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-7 w-7 flex-shrink-0"
         >
           <Trash2 className="w-3 h-3" />
         </Button>

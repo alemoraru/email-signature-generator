@@ -354,23 +354,25 @@ export function SignaturePreview({
                 )}
               </p>
             )}
-            <p style={{ margin: "0" }}>
+            <p style={{ margin: "0", display: "flex", alignItems: "center", flexWrap: "wrap", gap: "0" }}>
               {data.email && (
-                <a
-                  href={`mailto:${data.email}`}
-                  style={{
-                    color: primaryColor,
-                    textDecoration: "none",
-                  }}
-                >
-                  {data.email}
-                </a>
-              )}
-              {data.email && validLinks.length > 0 && (
-                <span style={{ color: mutedColor }}> | </span>
+                <>
+                  <a
+                    href={`mailto:${data.email}`}
+                    style={{
+                      color: primaryColor,
+                      textDecoration: "none",
+                    }}
+                  >
+                    {data.email}
+                  </a>
+                  {validLinks.length > 0 && (
+                    <span style={{ color: mutedColor, margin: "0 6px" }}>|</span>
+                  )}
+                </>
               )}
               {validLinks.map((link, index) => (
-                <span key={link.id}>
+                <span key={link.id} style={{ display: "inline-flex", alignItems: "center" }}>
                   <a
                     href={link.url}
                     style={{
@@ -381,7 +383,7 @@ export function SignaturePreview({
                     {renderLinkContent(link, primaryColor)}
                   </a>
                   {index < validLinks.length - 1 && (
-                    <span style={{ color: mutedColor }}> | </span>
+                    <span style={{ color: mutedColor, margin: "0 6px" }}>|</span>
                   )}
                 </span>
               ))}

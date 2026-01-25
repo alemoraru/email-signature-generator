@@ -136,7 +136,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               variant="ghost"
               size="sm"
               onClick={removeLogo}
-              className="text-muted-foreground hover:text-destructive h-8 text-xs"
+              className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 text-xs"
             >
               <X className="w-3 h-3 mr-1" />
               Remove
