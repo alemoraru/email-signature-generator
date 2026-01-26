@@ -64,7 +64,7 @@ export function SignaturePreview({
   previewTheme = "light",
 }: SignaturePreviewProps) {
   const isDark = !forCopy && previewTheme === "dark";
-  const primaryColor = forCopy ? "#1e40af" : data.colors.primary;
+  const primaryColor = data.colors.primary;
   const textColor = isDark ? "#f3f4f6" : "#1a1a1a";
   const mutedColor = isDark ? "#9ca3af" : "#6b7280";
 

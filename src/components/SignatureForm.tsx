@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { SetStateAction } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,7 @@ import type { SignatureData, SignatureLink } from "@/types/signature";
 
 interface SignatureFormProps {
   data: SignatureData;
-  onChange: (data: SignatureData) => void;
+  onChange: (data: SetStateAction<SignatureData>) => void;
 }
 
 const colorOptions = [
@@ -75,10 +76,12 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
     field: keyof Omit<SignatureLink, "id">,
     value: string | boolean,
   ) => {
-    const updatedLinks = data.links.map((link) =>
-      link.id === id ? { ...link, [field]: value } : link,
-    );
-    updateField("links", updatedLinks);
+    onChange((prevData) => ({
+      ...prevData,
+      links: prevData.links.map((link) =>
+        link.id === id ? { ...link, [field]: value } : link,
+      ),
+    }));
   };
 
   const removeLink = (id: string) => {
@@ -184,7 +187,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       {/* Basic Info - Compact grid */}
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Information</h3>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2 px-1">
           <div className="space-y-1">
             <Label htmlFor="name" className="text-xs text-muted-foreground">
               Name *
@@ -276,7 +279,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       {/* Single Color Picker */}
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Accent Color</h3>
-        <div className="p-3 rounded-lg border border-border/30">
+        <div className="p-2 rounded-lg border border-border/30">
           <TooltipProvider>
             <div className="flex items-center gap-2 flex-wrap">
               {colorOptions.map((color) => (
@@ -325,7 +328,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             </div>
           </TooltipProvider>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 px-1">
           <Input
             value={customColor}
             onChange={(e) => handleCustomColorChange(e.target.value)}
