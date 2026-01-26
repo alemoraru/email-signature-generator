@@ -32,7 +32,7 @@ export function HowToUseDialog() {
             </span>
             <p className="text-xs mt-1 ml-4">
               Add your name, title, company, email, and optionally upload a
-              logo.
+              logo. You can also adjust the logo size via a slider, if needed.
             </p>
           </li>
           <li>
@@ -41,8 +41,8 @@ export function HowToUseDialog() {
             </span>
             <p className="text-xs mt-1 ml-4">
               Add relevant links (LinkedIn, website, etc.), then click the edit
-              icon to customize the URL, label, and icon display. Drag links to
-              reorder them.
+              icon to customize the URL, label, icon display and optional UTM
+              parameters. Drag links to reorder them.
             </p>
           </li>
           <li>

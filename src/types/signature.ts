@@ -13,6 +13,10 @@ export interface SignatureLink {
   url: string;
   provider: SocialProvider;
   showIcon: boolean;
+  useUtm: boolean;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
 }
 
 export type SignatureStyle = "classic" | "modern" | "minimal";
