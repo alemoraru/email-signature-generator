@@ -4,6 +4,7 @@ export type SocialProvider =
   | "github"
   | "facebook"
   | "instagram"
+  | "website"
   | "custom";
 
 export interface SignatureLink {

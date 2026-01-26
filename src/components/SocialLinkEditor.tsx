@@ -35,6 +35,7 @@ const socialProviders: { value: SocialProvider; label: string }[] = [
   { value: "github", label: "GitHub" },
   { value: "facebook", label: "Facebook" },
   { value: "instagram", label: "Instagram" },
+  { value: "website", label: "Website" },
   { value: "custom", label: "Custom" },
 ];
 

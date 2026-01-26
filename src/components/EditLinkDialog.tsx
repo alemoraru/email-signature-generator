@@ -34,6 +34,7 @@ const providerLabels: Record<string, string> = {
   github: "GitHub",
   facebook: "Facebook",
   instagram: "Instagram",
+  website: "Website",
   custom: "Custom Link",
 };
 
