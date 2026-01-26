@@ -47,27 +47,29 @@ export function HowToUseDialog() {
           </li>
           <li>
             <span className="text-foreground font-medium">
-              Pick an accent color
+              Pick an accent color and font style
             </span>
             <p className="text-xs mt-1 ml-4">
               Choose a color for email and links, or enter a custom hex/rgb
-              value.
+              value. Select one of the available font styles, or keep the
+              default.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">
-              Preview on different devices
+              Preview on different devices & themes
             </span>
             <p className="text-xs mt-1 ml-4">
               Toggle between desktop, tablet, and mobile views to see how it
-              looks.
+              looks. Also switch between light and dark themes to ensure
+              readability.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">Copy and paste</span>
             <p className="text-xs mt-1 ml-4">
               Click "Copy Signature" and paste it into your email client's
-              signature settings.
+              signature settings (e.g., Gmail, Outlook, etc.).
             </p>
           </li>
         </ol>
