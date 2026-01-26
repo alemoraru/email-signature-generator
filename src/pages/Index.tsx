@@ -41,6 +41,7 @@ const defaultData: SignatureData = {
     primary: "#1e40af",
   },
   style: "modern",
+  fontFamily: "system",
 };
 
 const Index = () => {

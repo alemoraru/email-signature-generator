@@ -10,9 +10,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Upload, X } from "lucide-react";
 import { SocialLinkEditor } from "@/components/SocialLinkEditor";
-import type { SignatureData, SignatureLink } from "@/types/signature";
+import type {
+  SignatureData,
+  SignatureLink,
+  FontFamily,
+} from "@/types/signature";
 
 interface SignatureFormProps {
   data: SignatureData;
@@ -33,6 +44,14 @@ const colorOptions = [
   { value: "#a0522d", label: "Brown" },
   { value: "#c026d3", label: "Fuchsia" },
   { value: "#14b8a6", label: "Teal" },
+];
+
+const fontOptions: { value: FontFamily; label: string }[] = [
+  { value: "system", label: "System Default" },
+  { value: "serif", label: "Serif" },
+  { value: "mono", label: "Monospace" },
+  { value: "georgia", label: "Georgia" },
+  { value: "times", label: "Times New Roman" },
 ];
 
 export function SignatureForm({ data, onChange }: SignatureFormProps) {
@@ -80,6 +99,18 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       ...prevData,
       links: prevData.links.map((link) =>
         link.id === id ? { ...link, [field]: value } : link,
+      ),
+    }));
+  };
+
+  const updateLinkBulk = (
+    id: string,
+    updates: Partial<Omit<SignatureLink, "id">>,
+  ) => {
+    onChange((prevData) => ({
+      ...prevData,
+      links: prevData.links.map((link) =>
+        link.id === id ? { ...link, ...updates } : link,
       ),
     }));
   };
@@ -262,6 +293,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               index={index}
               draggedIndex={draggedIndex}
               onUpdate={updateLink}
+              onUpdateBulk={updateLinkBulk}
               onRemove={removeLink}
               onDragStart={handleDragStart}
               onDragOver={handleDragOver}
@@ -274,6 +306,28 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             </p>
           )}
         </div>
+      </section>
+
+      {/* Font Family Selector */}
+      <section className="space-y-2 px-1">
+        <h3 className="text-sm font-medium text-foreground">Font</h3>
+        <Select
+          value={data.fontFamily}
+          onValueChange={(value: FontFamily) =>
+            updateField("fontFamily", value)
+          }
+        >
+          <SelectTrigger className="bg-surface border-border h-9">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {fontOptions.map((font) => (
+              <SelectItem key={font.value} value={font.value}>
+                {font.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </section>
 
       {/* Single Color Picker */}

@@ -19,6 +19,10 @@ interface SocialLinkEditorProps {
     field: keyof Omit<SignatureLink, "id">,
     value: string | boolean,
   ) => void;
+  onUpdateBulk: (
+    id: string,
+    updates: Partial<Omit<SignatureLink, "id">>,
+  ) => void;
   onRemove: (id: string) => void;
   onDragStart: (index: number) => void;
   onDragOver: (e: React.DragEvent, index: number) => void;
@@ -39,6 +43,7 @@ export function SocialLinkEditor({
   index,
   draggedIndex,
   onUpdate,
+  onUpdateBulk,
   onRemove,
   onDragStart,
   onDragOver,
@@ -81,7 +86,7 @@ export function SocialLinkEditor({
       <div className="flex-1" />
 
       <div className="flex items-center gap-1">
-        <EditLinkDialog link={link} onUpdate={onUpdate} />
+        <EditLinkDialog link={link} onUpdateBulk={onUpdateBulk} />
 
         <Button
           variant="ghost"

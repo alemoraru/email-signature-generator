@@ -22,10 +22,9 @@ import type { SignatureLink } from "@/types/signature";
 
 interface EditLinkDialogProps {
   link: SignatureLink;
-  onUpdate: (
+  onUpdateBulk: (
     id: string,
-    field: keyof Omit<SignatureLink, "id">,
-    value: string | boolean,
+    updates: Partial<Omit<SignatureLink, "id">>,
   ) => void;
 }
 
@@ -38,7 +37,7 @@ const providerLabels: Record<string, string> = {
   custom: "Custom Link",
 };
 
-export function EditLinkDialog({ link, onUpdate }: EditLinkDialogProps) {
+export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
   const [open, setOpen] = useState(false);
   const [tempUrl, setTempUrl] = useState(link.url);
   const [tempLabel, setTempLabel] = useState(link.label);
@@ -48,9 +47,11 @@ export function EditLinkDialog({ link, onUpdate }: EditLinkDialogProps) {
   const providerLabel = providerLabels[link.provider] || "Link";
 
   const handleSave = () => {
-    onUpdate(link.id, "url", tempUrl);
-    onUpdate(link.id, "label", tempLabel);
-    onUpdate(link.id, "showIcon", tempShowIcon);
+    onUpdateBulk(link.id, {
+      url: tempUrl,
+      label: tempLabel,
+      showIcon: tempShowIcon,
+    });
     setOpen(false);
   };
 
