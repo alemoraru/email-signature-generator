@@ -50,6 +50,14 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
   const [tempUrl, setTempUrl] = useState(link.url);
   const [tempLabel, setTempLabel] = useState(link.label);
   const [tempShowIcon, setTempShowIcon] = useState(link.showIcon);
+  const [tempUseUtm, setTempUseUtm] = useState(link.useUtm);
+  const [tempUtmSource, setTempUtmSource] = useState(
+    link.utmSource || "email_signature",
+  );
+  const [tempUtmMedium, setTempUtmMedium] = useState(link.utmMedium || "email");
+  const [tempUtmCampaign, setTempUtmCampaign] = useState(
+    link.utmCampaign || "email",
+  );
 
   const hasIconSupport = link.provider !== "custom";
   const providerLabel = providerLabels[link.provider] || "Link";
@@ -60,6 +68,10 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
       url: tempUrl,
       label: tempLabel,
       showIcon: tempShowIcon,
+      useUtm: tempUseUtm,
+      utmSource: tempUtmSource,
+      utmMedium: tempUtmMedium,
+      utmCampaign: tempUtmCampaign,
     });
     setOpen(false);
   };
@@ -69,6 +81,10 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
     setTempUrl(link.url);
     setTempLabel(link.label);
     setTempShowIcon(link.showIcon);
+    setTempUseUtm(link.useUtm);
+    setTempUtmSource(link.utmSource || "email_signature");
+    setTempUtmMedium(link.utmMedium || "email");
+    setTempUtmCampaign(link.utmCampaign || "email");
     setOpen(false);
   };
 
@@ -78,6 +94,10 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
       setTempUrl(link.url);
       setTempLabel(link.label);
       setTempShowIcon(link.showIcon);
+      setTempUseUtm(link.useUtm);
+      setTempUtmSource(link.utmSource || "email_signature");
+      setTempUtmMedium(link.utmMedium || "email");
+      setTempUtmCampaign(link.utmCampaign || "email");
     }
     setOpen(newOpen);
   };
@@ -120,6 +140,10 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
                         icon next to the label.
                       </p>
                     )}
+                    <p>
+                      <strong>UTM Tracking:</strong> Add analytics parameters to
+                      track clicks from your email signature.
+                    </p>
                   </div>
                 </TooltipContent>
               </Tooltip>
@@ -179,20 +203,105 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
           </div>
 
           {hasIconSupport && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-start gap-2 pt-1">
               <Checkbox
                 id="edit-show-icon"
                 checked={tempShowIcon}
                 onCheckedChange={(checked) => setTempShowIcon(!!checked)}
+                className="mt-0.5"
               />
-              <Label
-                htmlFor="edit-show-icon"
-                className="text-sm cursor-pointer"
-              >
-                Show social icon
-              </Label>
+              <div className="flex-1">
+                <Label
+                  htmlFor="edit-show-icon"
+                  className="text-sm cursor-pointer"
+                >
+                  Show social icon
+                </Label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Display the platform icon next to the link text
+                </p>
+              </div>
             </div>
           )}
+
+          <div className="space-y-3 pt-1">
+            <div className="flex items-start gap-2">
+              <Checkbox
+                id="edit-use-utm"
+                checked={tempUseUtm}
+                onCheckedChange={(checked) => setTempUseUtm(!!checked)}
+                className="mt-0.5"
+              />
+              <div className="flex-1">
+                <Label
+                  htmlFor="edit-use-utm"
+                  className="text-sm cursor-pointer flex items-center gap-2"
+                >
+                  Add UTM tracking parameters
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <HelpCircle className="w-3 h-3 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p className="text-xs">
+                          Automatically appends UTM parameters (utm_source,
+                          utm_medium, utm_campaign) to track click analytics
+                          from your email signature. The tracking parameters are
+                          added when the signature is generated and won't appear
+                          in the URL field above.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </Label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Track link clicks from your email signature
+                </p>
+              </div>
+            </div>
+
+            {tempUseUtm && (
+              <div className="ml-6 space-y-3 pt-1">
+                <div className="space-y-1.5">
+                  <Label htmlFor="utm-source" className="text-xs font-medium">
+                    UTM Source
+                  </Label>
+                  <Input
+                    id="utm-source"
+                    value={tempUtmSource}
+                    onChange={(e) => setTempUtmSource(e.target.value)}
+                    placeholder="email_signature"
+                    className="bg-surface border-border h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="utm-medium" className="text-xs font-medium">
+                    UTM Medium
+                  </Label>
+                  <Input
+                    id="utm-medium"
+                    value={tempUtmMedium}
+                    onChange={(e) => setTempUtmMedium(e.target.value)}
+                    placeholder="email"
+                    className="bg-surface border-border h-8 text-xs"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="utm-campaign" className="text-xs font-medium">
+                    UTM Campaign
+                  </Label>
+                  <Input
+                    id="utm-campaign"
+                    value={tempUtmCampaign}
+                    onChange={(e) => setTempUtmCampaign(e.target.value)}
+                    placeholder="email"
+                    className="bg-surface border-border h-8 text-xs"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex justify-end gap-2 mt-6">

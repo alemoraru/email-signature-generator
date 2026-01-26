@@ -44,6 +44,41 @@ const providerLabels: Record<Exclude<SocialProvider, "custom">, string> = {
   website: "Website",
 };
 
+function addUtmParameters(
+  url: string,
+  utmSource?: string,
+  utmMedium?: string,
+  utmCampaign?: string,
+): string {
+  try {
+    const urlObj = new URL(url);
+    if (utmSource) {
+      urlObj.searchParams.set("utm_source", utmSource);
+    }
+    if (utmMedium) {
+      urlObj.searchParams.set("utm_medium", utmMedium);
+    }
+    if (utmCampaign) {
+      urlObj.searchParams.set("utm_campaign", utmCampaign);
+    }
+    return urlObj.toString();
+  } catch {
+    // If URL parsing fails, return original URL
+    return url;
+  }
+}
+
+function getLinkUrl(link: SignatureLink): string {
+  if (!link.useUtm) return link.url;
+
+  return addUtmParameters(
+    link.url,
+    link.utmSource,
+    link.utmMedium,
+    link.utmCampaign,
+  );
+}
+
 function renderLinkContent(link: SignatureLink, primaryColor: string) {
   // Use custom label if provided, otherwise fall back to default
   const displayLabel =
@@ -167,7 +202,7 @@ export function SignaturePreview({
                   {validLinks.map((link, index) => (
                     <span key={link.id}>
                       <a
-                        href={link.url}
+                        href={getLinkUrl(link)}
                         style={{
                           color: primaryColor,
                           textDecoration: "none",
@@ -310,7 +345,7 @@ export function SignaturePreview({
                     {validLinks.map((link) => (
                       <td key={link.id} style={{ paddingRight: "16px" }}>
                         <a
-                          href={link.url}
+                          href={getLinkUrl(link)}
                           style={{
                             color: primaryColor,
                             textDecoration: "none",
@@ -400,7 +435,7 @@ export function SignaturePreview({
                   style={{ display: "inline-flex", alignItems: "center" }}
                 >
                   <a
-                    href={link.url}
+                    href={getLinkUrl(link)}
                     style={{
                       color: primaryColor,
                       textDecoration: "none",

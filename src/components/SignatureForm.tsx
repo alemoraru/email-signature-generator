@@ -86,6 +86,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       url: "",
       provider: "custom",
       showIcon: false,
+      useUtm: false,
     };
     updateField("links", [...data.links, newLink]);
   };

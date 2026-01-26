@@ -28,6 +28,7 @@ const defaultData: SignatureData = {
       url: "https://linkedin.com/in/johndoe",
       provider: "linkedin",
       showIcon: true,
+      useUtm: false,
     },
     {
       id: "2",
@@ -35,6 +36,7 @@ const defaultData: SignatureData = {
       url: "https://x.com/johndoe",
       provider: "x",
       showIcon: true,
+      useUtm: false,
     },
   ],
   colors: {
