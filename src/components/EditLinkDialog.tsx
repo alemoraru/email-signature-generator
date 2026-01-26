@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Pencil, HelpCircle } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Pencil, HelpCircle, TriangleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { SignatureLink } from "@/types/signature";
+
+// URL validation helper
+export const isValidUrl = (url: string): boolean => {
+  if (!url) return true; // Empty is valid (no warning for empty)
+  const trimmedUrl = url.trim().toLowerCase();
+  return trimmedUrl.startsWith("http://") || trimmedUrl.startsWith("https://");
+};
 
 interface EditLinkDialogProps {
   link: SignatureLink;
@@ -46,6 +53,7 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
 
   const hasIconSupport = link.provider !== "custom";
   const providerLabel = providerLabels[link.provider] || "Link";
+  const showUrlWarning = useMemo(() => !isValidUrl(tempUrl), [tempUrl]);
 
   const handleSave = () => {
     onUpdateBulk(link.id, {
@@ -86,7 +94,7 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
           <span className="text-xs">Edit</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Edit {providerLabel}</DialogTitle>
           <DialogDescription className="flex items-center gap-2 text-xs">
@@ -129,8 +137,28 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
               value={tempUrl}
               onChange={(e) => setTempUrl(e.target.value)}
               placeholder="https://..."
-              className="bg-surface border-border h-9"
+              className={`bg-surface border-border h-9 ${
+                showUrlWarning
+                  ? "border-yellow-500 focus:border-yellow-500"
+                  : ""
+              }`}
             />
+            {showUrlWarning && (
+              <div className="flex items-start gap-2 p-2.5 pl-3 rounded-md bg-yellow-500/10 border border-yellow-500/20">
+                <TriangleAlert className="w-4 h-4 text-yellow-600 dark:text-yellow-500 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-yellow-700 dark:text-yellow-400 leading-relaxed break-words pr-1">
+                  URL should start with{" "}
+                  <code className="font-mono text-[11px] px-1 py-0.5 bg-yellow-500/10 rounded">
+                    http://
+                  </code>{" "}
+                  or{" "}
+                  <code className="font-mono text-[11px] px-1 py-0.5 bg-yellow-500/10 rounded">
+                    https://
+                  </code>{" "}
+                  to work properly in emails.
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">

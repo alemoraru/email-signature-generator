@@ -109,7 +109,7 @@ const Index = () => {
                   Customize
                 </h2>
               </div>
-              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-1 lg:min-h-0">
+              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-1 lg:pl-2 lg:min-h-0">
                 <SignatureForm data={data} onChange={setData} />
               </div>
             </div>

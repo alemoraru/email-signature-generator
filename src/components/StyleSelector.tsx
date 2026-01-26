@@ -27,7 +27,7 @@ const styles: { value: SignatureStyle; label: string; description: string }[] =
 
 export function StyleSelector({ value, onChange }: StyleSelectorProps) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 lg:pr-1 lg:pl-2">
       {styles.map((style) => (
         <button
           key={style.value}

@@ -218,7 +218,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       {/* Basic Info - Compact grid */}
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Information</h3>
-        <div className="grid grid-cols-2 gap-2 px-1">
+        <div className="grid grid-cols-2 gap-2">
           <div className="space-y-1">
             <Label htmlFor="name" className="text-xs text-muted-foreground">
               Name *
@@ -272,7 +272,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       </section>
 
       {/* Links - Compact */}
-      <section className="space-y-2">
+      <section className="space-y-2 overflow-visible">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-foreground">Links</h3>
           <Button
@@ -285,7 +285,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             Add Link
           </Button>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 overflow-visible">
           {data.links.map((link, index) => (
             <SocialLinkEditor
               key={link.id}
@@ -309,7 +309,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       </section>
 
       {/* Font Family Selector */}
-      <section className="space-y-2 px-1">
+      <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Font</h3>
         <Select
           value={data.fontFamily}
@@ -382,7 +382,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             </div>
           </TooltipProvider>
         </div>
-        <div className="flex items-center gap-2 px-1">
+        <div className="flex items-center gap-2">
           <Input
             value={customColor}
             onChange={(e) => handleCustomColorChange(e.target.value)}
