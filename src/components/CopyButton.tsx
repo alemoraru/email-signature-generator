@@ -14,7 +14,7 @@ export function CopyButton({ data }: CopyButtonProps) {
 
   const handleCopy = async () => {
     try {
-      // Render the signature to static HTML with forCopy=true for neutral colors
+      // Render the signature to static HTML
       const htmlContent = renderToStaticMarkup(
         <SignaturePreview data={data} forCopy={true} />,
       );

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { SetStateAction } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -9,13 +10,24 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Plus, Upload, X } from "lucide-react";
 import { SocialLinkEditor } from "@/components/SocialLinkEditor";
-import type { SignatureData, SignatureLink } from "@/types/signature";
+import type {
+  SignatureData,
+  SignatureLink,
+  FontFamily,
+} from "@/types/signature";
 
 interface SignatureFormProps {
   data: SignatureData;
-  onChange: (data: SignatureData) => void;
+  onChange: (data: SetStateAction<SignatureData>) => void;
 }
 
 const colorOptions = [
@@ -32,6 +44,14 @@ const colorOptions = [
   { value: "#a0522d", label: "Brown" },
   { value: "#c026d3", label: "Fuchsia" },
   { value: "#14b8a6", label: "Teal" },
+];
+
+const fontOptions: { value: FontFamily; label: string }[] = [
+  { value: "system", label: "System Default" },
+  { value: "serif", label: "Serif" },
+  { value: "mono", label: "Monospace" },
+  { value: "georgia", label: "Georgia" },
+  { value: "times", label: "Times New Roman" },
 ];
 
 export function SignatureForm({ data, onChange }: SignatureFormProps) {
@@ -75,10 +95,24 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
     field: keyof Omit<SignatureLink, "id">,
     value: string | boolean,
   ) => {
-    const updatedLinks = data.links.map((link) =>
-      link.id === id ? { ...link, [field]: value } : link,
-    );
-    updateField("links", updatedLinks);
+    onChange((prevData) => ({
+      ...prevData,
+      links: prevData.links.map((link) =>
+        link.id === id ? { ...link, [field]: value } : link,
+      ),
+    }));
+  };
+
+  const updateLinkBulk = (
+    id: string,
+    updates: Partial<Omit<SignatureLink, "id">>,
+  ) => {
+    onChange((prevData) => ({
+      ...prevData,
+      links: prevData.links.map((link) =>
+        link.id === id ? { ...link, ...updates } : link,
+      ),
+    }));
   };
 
   const removeLink = (id: string) => {
@@ -238,7 +272,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
       </section>
 
       {/* Links - Compact */}
-      <section className="space-y-2">
+      <section className="space-y-2 overflow-visible">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-medium text-foreground">Links</h3>
           <Button
@@ -251,7 +285,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             Add Link
           </Button>
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 overflow-visible">
           {data.links.map((link, index) => (
             <SocialLinkEditor
               key={link.id}
@@ -259,6 +293,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               index={index}
               draggedIndex={draggedIndex}
               onUpdate={updateLink}
+              onUpdateBulk={updateLinkBulk}
               onRemove={removeLink}
               onDragStart={handleDragStart}
               onDragOver={handleDragOver}
@@ -273,10 +308,32 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
         </div>
       </section>
 
+      {/* Font Family Selector */}
+      <section className="space-y-2">
+        <h3 className="text-sm font-medium text-foreground">Font</h3>
+        <Select
+          value={data.fontFamily}
+          onValueChange={(value: FontFamily) =>
+            updateField("fontFamily", value)
+          }
+        >
+          <SelectTrigger className="bg-surface border-border h-9">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {fontOptions.map((font) => (
+              <SelectItem key={font.value} value={font.value}>
+                {font.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </section>
+
       {/* Single Color Picker */}
       <section className="space-y-2">
         <h3 className="text-sm font-medium text-foreground">Accent Color</h3>
-        <div className="p-3 rounded-lg border border-border/30">
+        <div className="p-2 rounded-lg border border-border/30">
           <TooltipProvider>
             <div className="flex items-center gap-2 flex-wrap">
               {colorOptions.map((color) => (

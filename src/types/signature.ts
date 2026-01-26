@@ -4,6 +4,7 @@ export type SocialProvider =
   | "github"
   | "facebook"
   | "instagram"
+  | "website"
   | "custom";
 
 export interface SignatureLink {
@@ -15,6 +16,8 @@ export interface SignatureLink {
 }
 
 export type SignatureStyle = "classic" | "modern" | "minimal";
+
+export type FontFamily = "system" | "serif" | "mono" | "georgia" | "times";
 
 export interface SignatureColors {
   primary: string;
@@ -30,6 +33,7 @@ export interface SignatureData {
   links: SignatureLink[];
   colors: SignatureColors;
   style: SignatureStyle;
+  fontFamily: FontFamily;
 }
 
 export type DeviceType = "desktop" | "tablet" | "mobile";

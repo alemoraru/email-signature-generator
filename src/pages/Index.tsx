@@ -41,6 +41,7 @@ const defaultData: SignatureData = {
     primary: "#1e40af",
   },
   style: "modern",
+  fontFamily: "system",
 };
 
 const Index = () => {
@@ -92,7 +93,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container max-w-7xl mx-auto px-4 sm:px-6 py-3 lg:py-3 flex-1 lg:overflow-hidden">
-        <div className="grid lg:grid-cols-[340px_1fr] gap-4 lg:h-full">
+        <div className="grid lg:grid-cols-[360px_1fr] gap-4 lg:h-full">
           {/* Left Panel - Form */}
           <aside className="flex flex-col lg:h-full lg:min-h-0">
             <div className="bg-card rounded-xl border border-border p-4 shadow-subtle flex flex-col lg:h-full lg:overflow-hidden lg:min-h-0">
@@ -108,7 +109,7 @@ const Index = () => {
                   Customize
                 </h2>
               </div>
-              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-1 lg:min-h-0">
+              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-1 lg:pl-2 lg:min-h-0">
                 <SignatureForm data={data} onChange={setData} />
               </div>
             </div>
