@@ -69,9 +69,13 @@ const Index = () => {
     };
   }, [data]);
 
+  const handleReset = () => {
+    setData(defaultData);
+  };
+
   return (
     <div className="min-h-screen lg:h-screen bg-background flex flex-col">
-      <Header data={data} />
+      <Header data={data} onReset={handleReset} />
 
       {/* Main Content */}
       <main className="container max-w-7xl mx-auto px-4 sm:px-6 py-3 lg:py-3 flex-1 lg:overflow-hidden">
