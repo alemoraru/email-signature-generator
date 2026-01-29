@@ -6,15 +6,16 @@ import type { SignatureData } from "@/types/signature";
 
 const sampleSignature1: SignatureData = {
   logo: null,
-  name: "Sarah Chen",
+  logoSize: 100,
+  name: "John Doe",
   title: "Product Designer",
   company: "Acme Design Co.",
-  email: "sarah@acmedesign.co",
+  email: "johndoe@acmedesign.co",
   links: [
     {
       id: "1",
       label: "LinkedIn",
-      url: "https://linkedin.com/in/sarahchen",
+      url: "https://linkedin.com/in/johndoe",
       provider: "linkedin",
       showIcon: true,
       useUtm: false,
@@ -22,35 +23,37 @@ const sampleSignature1: SignatureData = {
     {
       id: "2",
       label: "Portfolio",
-      url: "https://sarahchen.design",
-      provider: "custom",
-      showIcon: false,
+      url: "https://johndoe.design",
+      provider: "website",
+      showIcon: true,
       useUtm: false,
     },
   ],
   colors: { primary: "#2563eb" },
   style: "modern",
+  fontFamily: "system",
 };
 
 const sampleSignature2: SignatureData = {
   logo: null,
-  name: "Michael Torres",
+  logoSize: 100,
+  name: "Joanna Doe",
   title: "Software Engineer",
   company: "TechFlow Inc.",
-  email: "m.torres@techflow.io",
+  email: "joanna.doe@techflow.io",
   links: [
     {
       id: "1",
       label: "GitHub",
-      url: "https://github.com/mtorres",
+      url: "https://github.com/joannadoe",
       provider: "github",
       showIcon: true,
       useUtm: false,
     },
     {
       id: "2",
-      label: "X",
-      url: "https://x.com/mtorres",
+      label: "joanna on X",
+      url: "https://x.com/joannadoe",
       provider: "x",
       showIcon: true,
       useUtm: false,
@@ -58,6 +61,7 @@ const sampleSignature2: SignatureData = {
   ],
   colors: { primary: "#059669" },
   style: "classic",
+  fontFamily: "system",
 };
 
 // Email client icons as inline SVGs
@@ -176,8 +180,8 @@ const Landing = () => {
       </div>
 
       {/* Main Content */}
-      <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full py-8">
+      <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen py-8 flex items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Column - Marketing Copy */}
           <div className="space-y-6">
             <div className="space-y-4">
@@ -188,7 +192,7 @@ const Landing = () => {
 
               <p className="text-base text-white/60 max-w-lg">
                 Design beautiful, responsive email signatures that work with
-                every email client. No signup required – just create, copy, and
+                every email client. No signup required. Just create, copy, and
                 paste.
               </p>
             </div>
@@ -240,9 +244,9 @@ const Landing = () => {
 
           {/* Right Column - Mock Email Previews */}
           <div className="relative hidden lg:block">
-            <div className="relative">
+            <div className="relative max-w-xl">
               {/* First Email Mock - Light Theme */}
-              <div className="transform rotate-[-2deg] translate-x-4 relative z-10 shadow-2xl">
+              <div className="transform rotate-[-2deg] relative z-10">
                 <div className="scale-[0.8] origin-top-left">
                   <EmailTemplate
                     data={sampleSignature1}
@@ -254,7 +258,7 @@ const Landing = () => {
               </div>
 
               {/* Second Email Mock - Dark Theme */}
-              <div className="transform rotate-[2deg] -translate-y-24 translate-x-20 relative z-20 shadow-2xl">
+              <div className="transform rotate-[2deg] -translate-y-24 translate-x-20 relative z-20">
                 <div className="scale-[0.8] origin-top-left">
                   <EmailTemplate
                     data={sampleSignature2}
@@ -269,14 +273,12 @@ const Landing = () => {
 
           {/* Mobile Preview - Single Email */}
           <div className="lg:hidden">
-            <div className="shadow-2xl rounded-lg overflow-hidden">
-              <EmailTemplate
-                data={sampleSignature1}
-                device="mobile"
-                previewTheme="light"
-                compact
-              />
-            </div>
+            <EmailTemplate
+              data={sampleSignature1}
+              device="mobile"
+              previewTheme="light"
+              compact
+            />
           </div>
         </div>
       </main>
