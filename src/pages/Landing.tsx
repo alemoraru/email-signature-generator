@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { ArrowRight } from "lucide-react";
@@ -91,13 +92,24 @@ const emailClients = [
 ];
 
 const Landing = () => {
+  useEffect(() => {
+    // Set body background to match landing page
+    document.body.style.backgroundColor = "#0a1628";
+
+    // Cleanup: reset to default when component unmounts
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#0a1628]">
+    <div className="min-h-screen bg-[#0a1628] relative">
       {/* Starry background effect */}
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none bg-[#0a1628]"
         style={{
           background: `
+            #0a1628,
             radial-gradient(ellipse at 50% 0%, rgba(30, 58, 95, 0.3) 0%, transparent 50%),
             radial-gradient(circle at 20% 80%, rgba(30, 64, 100, 0.15) 0%, transparent 30%),
             radial-gradient(circle at 80% 20%, rgba(30, 58, 95, 0.2) 0%, transparent 30%)
@@ -106,7 +118,7 @@ const Landing = () => {
       />
 
       {/* Stars */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none overflow-hidden bg-[#0a1628]">
         {[...Array(50)].map((_, i) => (
           <div
             key={i}
