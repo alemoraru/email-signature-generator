@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
-import { Mail, ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import type { SignatureData } from "@/types/signature";
 
 const sampleSignature1: SignatureData = {
@@ -243,30 +243,26 @@ const Landing = () => {
           </div>
 
           {/* Right Column - Mock Email Previews */}
-          <div className="relative hidden lg:block">
-            <div className="relative max-w-xl">
+          <div className="relative hidden lg:block h-[420px]">
+            <div className="absolute inset-0">
               {/* First Email Mock - Light Theme */}
-              <div className="transform rotate-[-2deg] relative z-10">
-                <div className="scale-[0.8] origin-top-left">
-                  <EmailTemplate
-                    data={sampleSignature1}
-                    device="desktop"
-                    previewTheme="light"
-                    compact
-                  />
-                </div>
+              <div className="absolute bottom-10 left-15 transform rotate-[-2deg] w-[500px]">
+                <EmailTemplate
+                  data={sampleSignature1}
+                  device="desktop"
+                  previewTheme="light"
+                  compact
+                />
               </div>
 
               {/* Second Email Mock - Dark Theme */}
-              <div className="transform rotate-[2deg] -translate-y-24 translate-x-20 relative z-20">
-                <div className="scale-[0.8] origin-top-left">
-                  <EmailTemplate
-                    data={sampleSignature2}
-                    device="desktop"
-                    previewTheme="dark"
-                    compact
-                  />
-                </div>
+              <div className="absolute top-24 left-52 transform rotate-[2deg] w-[500px]">
+                <EmailTemplate
+                  data={sampleSignature2}
+                  device="desktop"
+                  previewTheme="dark"
+                  compact
+                />
               </div>
             </div>
           </div>
