@@ -9,6 +9,7 @@ interface EmailTemplateProps {
   data: SignatureData;
   device: DeviceType;
   previewTheme: PreviewTheme;
+  compact?: boolean;
 }
 
 const deviceWidths: Record<DeviceType, string> = {
@@ -21,6 +22,7 @@ export function EmailTemplate({
   data,
   device,
   previewTheme,
+  compact = false,
 }: EmailTemplateProps) {
   const isDark = previewTheme === "dark";
 
@@ -121,23 +123,60 @@ export function EmailTemplate({
         className="p-4 sm:p-6"
         style={{ backgroundColor: isDark ? "#1f2937" : "hsl(var(--card))" }}
       >
-        <div
-          className="space-y-4 text-sm leading-relaxed"
-          style={{ color: isDark ? "#f3f4f6" : "hsl(var(--foreground))" }}
-        >
-          <p>Hi there,</p>
-          <p>
-            Thank you for taking the time to meet with me today. I really
-            enjoyed our conversation about the upcoming project and I'm excited
-            about the potential collaboration.
-          </p>
-          <p>
-            I've attached the documents we discussed. Please let me know if you
-            have any questions or if there's anything else you need from my end.
-          </p>
-          <p>Looking forward to hearing from you soon.</p>
-          <p>Best regards,</p>
-        </div>
+        {compact ? (
+          <div className="space-y-3 mb-6">
+            <div
+              className="h-3 rounded-full w-16"
+              style={{
+                backgroundColor: isDark ? "#374151" : "hsl(var(--muted))",
+              }}
+            />
+            <div
+              className="h-3 rounded-full w-full"
+              style={{
+                backgroundColor: isDark ? "#374151" : "hsl(var(--muted))",
+              }}
+            />
+            <div
+              className="h-3 rounded-full w-5/6"
+              style={{
+                backgroundColor: isDark ? "#374151" : "hsl(var(--muted))",
+              }}
+            />
+            <div
+              className="h-3 rounded-full w-4/6"
+              style={{
+                backgroundColor: isDark ? "#374151" : "hsl(var(--muted))",
+              }}
+            />
+            <div className="h-3" />
+            <div
+              className="h-3 rounded-full w-24"
+              style={{
+                backgroundColor: isDark ? "#374151" : "hsl(var(--muted))",
+              }}
+            />
+          </div>
+        ) : (
+          <div
+            className="space-y-4 text-sm leading-relaxed"
+            style={{ color: isDark ? "#f3f4f6" : "hsl(var(--foreground))" }}
+          >
+            <p>Hi there,</p>
+            <p>
+              Thank you for taking the time to meet with me today. I really
+              enjoyed our conversation about the upcoming project and I'm
+              excited about the potential collaboration.
+            </p>
+            <p>
+              I've attached the documents we discussed. Please let me know if
+              you have any questions or if there's anything else you need from
+              my end.
+            </p>
+            <p>Looking forward to hearing from you soon.</p>
+            <p>Best regards,</p>
+          </div>
+        )}
 
         {/* Signature */}
         <div
