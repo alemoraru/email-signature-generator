@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { SignatureData } from "@/types/signature";
 import { SiGmail, SiApple, SiThunderbird, SiProtonmail } from "react-icons/si";
 import { FaYahoo } from "react-icons/fa6";
-import { PiMicrosoftOutlookLogo } from "react-icons/pi";
+import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 
 const sampleSignature1: SignatureData = {
   logo: null,
@@ -70,7 +70,7 @@ const sampleSignature2: SignatureData = {
 // Email client icons using react-icons with brand colors
 const GmailIcon = () => <SiGmail className="w-4 h-4" color="#EA4335" />;
 const OutlookIcon = () => (
-  <PiMicrosoftOutlookLogo className="w-4 h-4" color="#0078D4" />
+  <PiMicrosoftOutlookLogoFill className="w-4 h-4" color="#0078D4" />
 );
 const AppleMailIcon = () => <SiApple className="w-4 h-4" color="#555555" />;
 const YahooIcon = () => <FaYahoo className="w-4 h-4" color="#5F01D1" />;
@@ -84,10 +84,10 @@ const ProtonMailIcon = () => (
 const emailClients = [
   { name: "Gmail", icon: GmailIcon },
   { name: "Outlook", icon: OutlookIcon },
+  { name: "ProtonMail", icon: ProtonMailIcon },
   { name: "Apple Mail", icon: AppleMailIcon },
   { name: "Yahoo Mail", icon: YahooIcon },
   { name: "Thunderbird", icon: ThunderbirdIcon },
-  { name: "ProtonMail", icon: ProtonMailIcon },
 ];
 
 const features = [
@@ -130,35 +130,22 @@ const Landing = () => {
       <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen py-8 flex items-center">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
           {/* Left Column - Marketing Copy */}
-          <div className="space-y-6">
-            <div className="space-y-4">
+          <div className="space-y-8">
+            <div className="space-y-5">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 Create Professional Email Signatures in{" "}
                 <span className="text-blue-400">Seconds</span>
               </h1>
 
-              <p className="text-base text-white/60 max-w-lg">
+              <p className="text-lg text-white/70 max-w-lg leading-relaxed">
                 Design beautiful, responsive email signatures that work with
                 every email client. No signup required. Just create, copy, and
-                paste.
+                paste. Free forever.
               </p>
             </div>
 
-            {/* Feature Pills */}
-            <div className="flex flex-wrap gap-2">
-              {features.map((feature) => (
-                <div
-                  key={feature}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10"
-                >
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-sm text-white/70">{feature}</span>
-                </div>
-              ))}
-            </div>
-
             {/* CTA */}
-            <div className="pt-2">
+            <div>
               <Link to="/editor">
                 <Button
                   size="lg"
@@ -171,19 +158,19 @@ const Landing = () => {
             </div>
 
             {/* Email Clients */}
-            <div className="space-y-2 pt-2">
-              <p className="text-xs text-white/40 uppercase tracking-wider font-medium">
+            <div className="space-y-3 pt-2">
+              <p className="text-sm text-white/50 font-medium">
                 Works with all major email clients
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {emailClients.map((client) => (
-                  <span
+                  <div
                     key={client.name}
-                    className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-white/5 text-white/60 border border-white/10"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 transition-colors"
                   >
                     <client.icon />
-                    {client.name}
-                  </span>
+                    <span className="text-sm">{client.name}</span>
+                  </div>
                 ))}
               </div>
             </div>
