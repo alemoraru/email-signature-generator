@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { ArrowRight, Check } from "lucide-react";
 import type { SignatureData } from "@/types/signature";
+import { SiGmail, SiApple, SiThunderbird, SiProtonmail } from "react-icons/si";
+import { FaYahoo } from "react-icons/fa6";
+import { PiMicrosoftOutlookLogo } from "react-icons/pi";
 
 const sampleSignature1: SignatureData = {
   logo: null,
@@ -64,74 +67,18 @@ const sampleSignature2: SignatureData = {
   fontFamily: "system",
 };
 
-// Email client icons as inline SVGs
-const GmailIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-    <path d="M22 6L12 13L2 6V4L12 11L22 4V6Z" fill="#EA4335" />
-    <path
-      d="M22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6L12 13L22 6Z"
-      fill="#FBBC05"
-    />
-    <path d="M2 6L12 13V20H4C2.9 20 2 19.1 2 18V6Z" fill="#34A853" />
-    <path d="M22 6V18C22 19.1 21.1 20 20 20H12V13L22 6Z" fill="#4285F4" />
-  </svg>
-);
-
+// Email client icons using react-icons with brand colors
+const GmailIcon = () => <SiGmail className="w-4 h-4" color="#EA4335" />;
 const OutlookIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M22 8.5V17C22 18.1 21.1 19 20 19H8V8L14 5L22 8.5Z"
-      fill="#0078D4"
-    />
-    <path
-      d="M8 19H4C2.9 19 2 18.1 2 17V7C2 5.9 2.9 5 4 5H14L8 8V19Z"
-      fill="#0364B8"
-    />
-    <ellipse cx="7" cy="12" rx="3.5" ry="4" fill="#28A8EA" />
-  </svg>
+  <PiMicrosoftOutlookLogo className="w-4 h-4" color="#0078D4" />
 );
-
-const AppleMailIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-    <rect x="2" y="4" width="20" height="16" rx="2" fill="#007AFF" />
-    <path d="M2 6L12 13L22 6" stroke="white" strokeWidth="1.5" />
-  </svg>
-);
-
-const YahooIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="10" fill="#6001D2" />
-    <text
-      x="12"
-      y="16"
-      textAnchor="middle"
-      fill="white"
-      fontSize="10"
-      fontWeight="bold"
-    >
-      Y!
-    </text>
-  </svg>
-);
-
+const AppleMailIcon = () => <SiApple className="w-4 h-4" color="#555555" />;
+const YahooIcon = () => <FaYahoo className="w-4 h-4" color="#5F01D1" />;
 const ThunderbirdIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="10" fill="#0A84FF" />
-    <path
-      d="M7 10L12 14L17 10"
-      stroke="white"
-      strokeWidth="2"
-      strokeLinecap="round"
-    />
-  </svg>
+  <SiThunderbird className="w-4 h-4" color="#0A84FF" />
 );
-
 const ProtonMailIcon = () => (
-  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-    <rect x="2" y="4" width="20" height="16" rx="2" fill="#6D4AFF" />
-    <path d="M4 8L12 14L20 8" stroke="white" strokeWidth="1.5" />
-    <circle cx="12" cy="12" r="3" fill="white" fillOpacity="0.3" />
-  </svg>
+  <SiProtonmail className="w-4 h-4" color="#6D4AFF" />
 );
 
 const emailClients = [
@@ -256,7 +203,7 @@ const Landing = () => {
               </div>
 
               {/* Second Email Mock - Dark Theme */}
-              <div className="absolute top-24 left-52 transform rotate-[2deg] w-[500px]">
+              <div className="absolute top-24 left-48 transform rotate-[2deg] w-[500px]">
                 <EmailTemplate
                   data={sampleSignature2}
                   device="desktop"
