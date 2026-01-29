@@ -90,12 +90,6 @@ const emailClients = [
   { name: "Thunderbird", icon: ThunderbirdIcon },
 ];
 
-const features = [
-  "100% Free Forever",
-  "No Account Required",
-  "Works Everywhere",
-];
-
 const Landing = () => {
   return (
     <div className="min-h-screen bg-[#0a1628]">
@@ -127,17 +121,17 @@ const Landing = () => {
       </div>
 
       {/* Main Content */}
-      <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen py-8 flex items-center">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full">
+      <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen py-12 sm:py-16 lg:py-8 flex items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-12 items-center w-full">
           {/* Left Column - Marketing Copy */}
-          <div className="space-y-8">
-            <div className="space-y-5">
+          <div className="space-y-6 sm:space-y-8">
+            <div className="space-y-4 sm:space-y-5">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                 Create Professional Email Signatures in{" "}
                 <span className="text-blue-400">Seconds</span>
               </h1>
 
-              <p className="text-lg text-white/70 max-w-lg leading-relaxed">
+              <p className="text-base sm:text-lg text-white/70 max-w-lg leading-relaxed">
                 Design beautiful, responsive email signatures that work with
                 every email client. No signup required. Just create, copy, and
                 paste. Free forever.
@@ -149,7 +143,7 @@ const Landing = () => {
               <Link to="/editor">
                 <Button
                   size="lg"
-                  className="bg-white text-slate-900 hover:bg-white/90"
+                  className="bg-white text-slate-900 hover:bg-white/90 w-full sm:w-auto"
                 >
                   Create Your Signature
                   <ArrowRight className="w-4 h-4 ml-2" />
@@ -159,17 +153,17 @@ const Landing = () => {
 
             {/* Email Clients */}
             <div className="space-y-3 pt-2">
-              <p className="text-sm text-white/50 font-medium">
+              <p className="text-xs sm:text-sm text-white/50 font-medium">
                 Works with all major email clients
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {emailClients.map((client) => (
                   <div
                     key={client.name}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 transition-colors"
+                    className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 transition-colors"
                   >
                     <client.icon />
-                    <span className="text-sm">{client.name}</span>
+                    <span className="text-xs sm:text-sm">{client.name}</span>
                   </div>
                 ))}
               </div>
@@ -202,7 +196,7 @@ const Landing = () => {
           </div>
 
           {/* Mobile Preview - Single Email */}
-          <div className="lg:hidden">
+          <div className="lg:hidden max-w-md mx-auto">
             <EmailTemplate
               data={sampleSignature1}
               device="mobile"
