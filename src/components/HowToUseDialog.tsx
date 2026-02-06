@@ -66,6 +66,16 @@ export function HowToUseDialog() {
             </p>
           </li>
           <li>
+            <span className="text-foreground font-medium">
+              Share your configuration (optional)
+            </span>
+            <p className="text-xs mt-1 ml-4">
+              Click "Share" to generate a shareable link. Anyone with the link
+              can load your signature configuration (except the logo). Great for
+              teams or sharing templates!
+            </p>
+          </li>
+          <li>
             <span className="text-foreground font-medium">Copy and paste</span>
             <p className="text-xs mt-1 ml-4">
               Click "Copy Signature" and paste it into your email client's
