@@ -86,12 +86,12 @@ export function CopyButton({ data }: CopyButtonProps) {
       {copied ? (
         <>
           <Check className="w-4 h-4" />
-          Copied!
+          <span className="hidden sm:inline">Copied!</span>
         </>
       ) : (
         <>
           <Copy className="w-4 h-4" />
-          Copy Signature
+          <span className="hidden sm:inline">Copy Signature</span>
         </>
       )}
     </Button>

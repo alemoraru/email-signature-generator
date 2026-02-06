@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { SignatureForm } from "@/components/SignatureForm";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { DeviceToggle } from "@/components/DeviceToggle";
@@ -11,6 +12,8 @@ import type {
   DeviceType,
   PreviewTheme,
 } from "@/types/signature";
+import { decodeSignatureFromUrl } from "@/lib/shareUtils";
+import { useToast } from "@/hooks/use-toast";
 
 const defaultData: SignatureData = {
   logo: null,
@@ -48,6 +51,42 @@ const Editor = () => {
   const [data, setData] = useState<SignatureData>(defaultData);
   const [device, setDevice] = useState<DeviceType>("desktop");
   const [previewTheme, setPreviewTheme] = useState<PreviewTheme>("light");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { toast } = useToast();
+
+  // Load signature from URL parameter on mount
+  useEffect(() => {
+    const shareParam = searchParams.get("s");
+    if (shareParam) {
+      decodeSignatureFromUrl(shareParam)
+        .then((sharedData) => {
+          // Merge with defaultData to ensure all fields exist
+          setData({
+            ...defaultData,
+            ...sharedData,
+            colors: { ...defaultData.colors, ...sharedData.colors },
+          });
+          // Remove param from URL after loading
+          setSearchParams({});
+          // Show success toast
+          toast({
+            title: "Signature loaded!",
+            description: "The shared signature has been loaded successfully.",
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to load shared signature:", error);
+          toast({
+            title: "Failed to load shared signature",
+            description:
+              "The share link appears to be invalid or corrupted. Using default signature instead.",
+            variant: "destructive",
+          });
+          // Keep defaultData
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   // Warn user before leaving/refreshing if they have made changes
   useEffect(() => {

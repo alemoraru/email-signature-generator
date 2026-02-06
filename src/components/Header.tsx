@@ -1,5 +1,6 @@
 import { ArrowLeft, Mail } from "lucide-react";
 import { HowToUseDialog } from "@/components/HowToUseDialog";
+import { ShareButton } from "@/components/ShareButton";
 import { CopyButton } from "@/components/CopyButton";
 import type { SignatureData } from "@/types/signature";
 import { Link } from "react-router-dom";
@@ -65,6 +66,7 @@ export const Header = ({ data, onReset }: HeaderProps) => {
           aria-label="Header actions"
         >
           <HowToUseDialog />
+          <ShareButton data={data} />
           <CopyButton data={data} />
         </nav>
       </div>
