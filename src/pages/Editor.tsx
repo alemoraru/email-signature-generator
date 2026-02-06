@@ -162,6 +162,7 @@ const Editor = () => {
                 data={data}
                 device={device}
                 previewTheme={previewTheme}
+                animationKey={data.style}
               />
             </div>
           </section>

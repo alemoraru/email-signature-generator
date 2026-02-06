@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { EmailClientBadge } from "@/components/EmailClientBadge";
@@ -109,6 +109,7 @@ const availableStyles: SignatureStyle[] = [
 
 const Landing = () => {
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     // Set body background to match landing page
@@ -120,18 +121,35 @@ const Landing = () => {
     };
   }, []);
 
-  // Auto-cycle through styles every 8 seconds (desktop only)
-  useEffect(() => {
-    const interval = setInterval(() => {
+  // Function to start/restart the auto-cycle interval
+  const startAutoCycle = () => {
+    // Clear existing interval if any
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    // Start new interval
+    intervalRef.current = setInterval(() => {
       setCurrentStyleIndex((prev) => (prev + 1) % availableStyles.length);
     }, 8000);
+  };
 
-    return () => clearInterval(interval);
+  // Auto-cycle through styles every 8 seconds (desktop only)
+  useEffect(() => {
+    startAutoCycle();
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
 
-  // Handle manual style cycling
+  // Handle manual style cycling - resets the timer
   const handleNextStyle = () => {
     setCurrentStyleIndex((prev) => (prev + 1) % availableStyles.length);
+    // Reset the auto-cycle timer
+    startAutoCycle();
   };
 
   return (
@@ -200,7 +218,7 @@ const Landing = () => {
                 className="hidden sm:flex items-center gap-2 px-4 h-11 bg-white/8 border border-white/15 rounded-lg hover:bg-white/12 hover:border-blue-400/30 hover:shadow-lg hover:shadow-blue-400/10 transition-all cursor-pointer group"
               >
                 <span className="text-xs text-white/50 font-medium">
-                  Signature Style:
+                  Current Signature Style:
                 </span>
                 <div className="relative h-5 overflow-hidden min-w-[80px]">
                   <div
@@ -254,7 +272,7 @@ const Landing = () => {
           <div className="relative hidden lg:block h-[420px]">
             <div className="absolute inset-0">
               {/* First Email Mock - Light Theme */}
-              <div className="absolute bottom-10 left-15 transform rotate-[-2deg] w-[500px] transition-opacity duration-500">
+              <div className="absolute bottom-10 left-15 transform rotate-[-2deg] w-[500px]">
                 <EmailTemplate
                   data={{
                     ...sampleSignature1,
@@ -263,11 +281,12 @@ const Landing = () => {
                   device="desktop"
                   previewTheme="light"
                   compact
+                  animationKey={`light-${currentStyleIndex}`}
                 />
               </div>
 
               {/* Second Email Mock - Dark Theme */}
-              <div className="absolute top-24 left-48 transform rotate-[2deg] w-[500px] transition-opacity duration-500">
+              <div className="absolute top-24 left-48 transform rotate-[2deg] w-[500px]">
                 <EmailTemplate
                   data={{
                     ...sampleSignature2,
@@ -276,6 +295,7 @@ const Landing = () => {
                   device="desktop"
                   previewTheme="dark"
                   compact
+                  animationKey={`dark-${currentStyleIndex}`}
                 />
               </div>
             </div>

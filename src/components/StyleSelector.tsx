@@ -53,9 +53,10 @@ export function StyleSelector({ value, onChange }: StyleSelectorProps) {
 
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full bg-background px-2.5 focus:ring-muted-foreground/30 hover:border-accent/50 hover:bg-accent/5 transition-colors">
+      <SelectTrigger className="w-full bg-background pl-2 pr-2.5 focus:ring-muted-foreground/30 hover:border-accent/50 hover:bg-accent/5 transition-colors">
         <SelectValue>
-          {selectedStyle?.label}: {selectedStyle?.description}
+          <span className={"font-medium"}>{selectedStyle?.label}</span>:{" "}
+          {selectedStyle?.description}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
