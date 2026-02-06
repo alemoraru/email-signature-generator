@@ -29,6 +29,21 @@ const styles: { value: SignatureStyle; label: string; description: string }[] =
       label: "Minimal",
       description: "Simple text-only design",
     },
+    {
+      value: "compact",
+      label: "Compact",
+      description: "Everything in one concise line",
+    },
+    {
+      value: "professional",
+      label: "Professional",
+      description: "Formal layout with dividers",
+    },
+    {
+      value: "bold",
+      label: "Bold",
+      description: "Prominent bold name and logo",
+    },
   ];
 
 export function StyleSelector({ value, onChange }: StyleSelectorProps) {
@@ -38,7 +53,7 @@ export function StyleSelector({ value, onChange }: StyleSelectorProps) {
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-full bg-background px-2.5 focus:ring-muted-foreground/30">
         <SelectValue>
-          {selectedStyle?.label} - {selectedStyle?.description}
+          {selectedStyle?.label}: {selectedStyle?.description}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>

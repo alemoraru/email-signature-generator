@@ -323,7 +323,11 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
           </SelectTrigger>
           <SelectContent>
             {fontOptions.map((font) => (
-              <SelectItem key={font.value} value={font.value}>
+              <SelectItem
+                key={font.value}
+                value={font.value}
+                className="cursor-pointer"
+              >
                 {font.label}
               </SelectItem>
             ))}

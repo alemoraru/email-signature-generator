@@ -19,7 +19,13 @@ export interface SignatureLink {
   utmCampaign?: string;
 }
 
-export type SignatureStyle = "classic" | "modern" | "minimal";
+export type SignatureStyle =
+  | "classic"
+  | "modern"
+  | "minimal"
+  | "compact"
+  | "professional"
+  | "bold";
 
 export type FontFamily = "system" | "serif" | "mono" | "georgia" | "times";
 
