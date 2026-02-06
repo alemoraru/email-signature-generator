@@ -326,7 +326,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               <SelectItem
                 key={font.value}
                 value={font.value}
-                className="cursor-pointer"
+                className="cursor-pointer focus:bg-accent/10 focus:text-accent"
               >
                 {font.label}
               </SelectItem>

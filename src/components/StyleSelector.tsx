@@ -61,7 +61,7 @@ export function StyleSelector({ value, onChange }: StyleSelectorProps) {
           <SelectItem
             key={style.value}
             value={style.value}
-            className="focus:bg-muted focus:text-foreground cursor-pointer"
+            className="focus:bg-accent/10 focus:text-accent cursor-pointer"
           >
             <div className="flex flex-col">
               <span className="font-medium">{style.label}</span>
