@@ -318,7 +318,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             updateField("fontFamily", value)
           }
         >
-          <SelectTrigger className="bg-surface border-border h-9">
+          <SelectTrigger className="bg-surface border-border h-9 hover:border-accent/50 hover:bg-accent/5 transition-colors">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

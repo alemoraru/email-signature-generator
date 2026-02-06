@@ -53,7 +53,7 @@ export function StyleSelector({ value, onChange }: StyleSelectorProps) {
 
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full bg-background px-2.5 focus:ring-muted-foreground/30">
+      <SelectTrigger className="w-full bg-background px-2.5 focus:ring-muted-foreground/30 hover:border-accent/50 hover:bg-accent/5 transition-colors">
         <SelectValue>
           {selectedStyle?.label}: {selectedStyle?.description}
         </SelectValue>
