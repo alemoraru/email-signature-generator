@@ -43,7 +43,7 @@ const defaultData: SignatureData = {
   colors: {
     primary: "#1e40af",
   },
-  style: "modern",
+  style: "classic",
   fontFamily: "system",
 };
 
@@ -124,12 +124,14 @@ const Editor = () => {
             <div className="bg-card rounded-xl border border-border p-4 shadow-subtle flex flex-col lg:h-full lg:overflow-hidden lg:min-h-0">
               <div className="flex-shrink-0">
                 <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                  Style
+                  Style Selector
                 </h2>
-                <StyleSelector
-                  value={data.style}
-                  onChange={(style) => setData({ ...data, style })}
-                />
+                <div className="lg:pr-3 lg:pl-2">
+                  <StyleSelector
+                    value={data.style}
+                    onChange={(style) => setData({ ...data, style })}
+                  />
+                </div>
                 <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mt-4 mb-3">
                   Customize
                 </h2>
@@ -160,6 +162,7 @@ const Editor = () => {
                 data={data}
                 device={device}
                 previewTheme={previewTheme}
+                animationKey={data.style}
               />
             </div>
           </section>

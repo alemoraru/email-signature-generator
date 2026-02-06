@@ -108,7 +108,7 @@ export function EditLinkDialog({ link, onUpdateBulk }: EditLinkDialogProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="text-muted-foreground hover:text-foreground h-7 px-2 gap-1.5"
+          className="text-muted-foreground hover:text-accent hover:bg-accent/10 h-7 px-2 gap-1.5"
         >
           <Pencil className="w-3 h-3" />
           <span className="text-xs">Edit</span>

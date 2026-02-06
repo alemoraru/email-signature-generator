@@ -10,6 +10,7 @@ interface EmailTemplateProps {
   device: DeviceType;
   previewTheme: PreviewTheme;
   compact?: boolean;
+  animationKey?: string;
 }
 
 const deviceWidths: Record<DeviceType, string> = {
@@ -23,6 +24,7 @@ export function EmailTemplate({
   device,
   previewTheme,
   compact = false,
+  animationKey,
 }: EmailTemplateProps) {
   const isDark = previewTheme === "dark";
 
@@ -180,7 +182,8 @@ export function EmailTemplate({
 
         {/* Signature */}
         <div
-          className="mt-6 pt-4 border-t"
+          key={animationKey}
+          className={`mt-6 pt-4 border-t ${animationKey ? "animate-preview-change" : ""}`}
           style={{ borderColor: isDark ? "#374151" : "hsl(var(--border))" }}
         >
           <SignaturePreview data={data} previewTheme={previewTheme} />

@@ -1,5 +1,13 @@
-import { cn } from "@/lib/utils";
 import type { SignatureStyle } from "@/types/signature";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Plus } from "lucide-react";
 
 interface StyleSelectorProps {
   value: SignatureStyle;
@@ -9,39 +17,78 @@ interface StyleSelectorProps {
 const styles: { value: SignatureStyle; label: string; description: string }[] =
   [
     {
-      value: "modern",
-      label: "Modern",
-      description: "Clean horizontal divider style",
-    },
-    {
       value: "classic",
       label: "Classic",
       description: "Traditional layout with logo on left",
+    },
+    {
+      value: "modern",
+      label: "Modern",
+      description: "Clean horizontal divider style",
     },
     {
       value: "minimal",
       label: "Minimal",
       description: "Simple text-only design",
     },
+    {
+      value: "compact",
+      label: "Compact",
+      description: "Everything in one concise line",
+    },
+    {
+      value: "professional",
+      label: "Professional",
+      description: "Formal layout with dividers",
+    },
+    {
+      value: "bold",
+      label: "Bold",
+      description: "Prominent bold name and logo",
+    },
   ];
 
 export function StyleSelector({ value, onChange }: StyleSelectorProps) {
+  const selectedStyle = styles.find((style) => style.value === value);
+
   return (
-    <div className="flex gap-2 lg:pr-1 lg:pl-2">
-      {styles.map((style) => (
-        <button
-          key={style.value}
-          onClick={() => onChange(style.value)}
-          className={cn(
-            "flex-1 px-3 py-2 rounded-lg border text-xs font-medium transition-all",
-            value === style.value
-              ? "border-accent bg-accent/10 text-accent"
-              : "border-border bg-surface text-muted-foreground hover:border-muted-foreground/50",
-          )}
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger className="w-full bg-background pl-2 pr-2.5 focus:ring-muted-foreground/30 hover:border-accent/50 hover:bg-accent/5 transition-colors">
+        <SelectValue>
+          <span className={"font-medium"}>{selectedStyle?.label}</span>:{" "}
+          {selectedStyle?.description}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {styles.map((style) => (
+          <SelectItem
+            key={style.value}
+            value={style.value}
+            className="focus:bg-accent/10 focus:text-accent cursor-pointer"
+          >
+            <div className="flex flex-col">
+              <span className="font-medium">{style.label}</span>
+              <span className="text-xs text-muted-foreground">
+                {style.description}
+              </span>
+            </div>
+          </SelectItem>
+        ))}
+        <Separator className="my-2" />
+        <a
+          href="https://github.com/alemoraru/email-signature-generator"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-2 py-2 text-sm text-muted-foreground hover:text-accent hover:bg-accent/5 rounded-sm transition-colors cursor-pointer"
+          onClick={(e) => e.stopPropagation()}
         >
-          {style.label}
-        </button>
-      ))}
-    </div>
+          <Plus className="h-4 w-4" />
+          <div className="flex flex-col">
+            <span className="font-medium">Want to add a new style?</span>
+            <span className="text-xs">Contribute on GitHub</span>
+          </div>
+        </a>
+      </SelectContent>
+    </Select>
   );
 }

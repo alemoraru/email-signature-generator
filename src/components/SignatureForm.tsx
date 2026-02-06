@@ -24,6 +24,7 @@ import type {
   SignatureLink,
   FontFamily,
 } from "@/types/signature";
+import { cn } from "@/lib/utils.ts";
 
 interface SignatureFormProps {
   data: SignatureData;
@@ -203,7 +204,12 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             </div>
           </div>
         ) : (
-          <label className="flex items-center gap-3 px-3 py-2 border border-dashed border-border rounded-lg cursor-pointer hover:border-muted-foreground/50 transition-colors bg-surface/50">
+          <label
+            className={cn(
+              "flex items-center gap-3 px-3 py-2 border border-dashed border-border",
+              "rounded-lg cursor-pointer hover:border-accent/50 transition-colors bg-surface/50",
+            )}
+          >
             <Upload className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Upload logo</span>
             <input
@@ -318,12 +324,16 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             updateField("fontFamily", value)
           }
         >
-          <SelectTrigger className="bg-surface border-border h-9">
+          <SelectTrigger className="bg-surface border-border h-9 hover:border-accent/50 hover:bg-accent/5 transition-colors">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             {fontOptions.map((font) => (
-              <SelectItem key={font.value} value={font.value}>
+              <SelectItem
+                key={font.value}
+                value={font.value}
+                className="cursor-pointer focus:bg-accent/10 focus:text-accent"
+              >
                 {font.label}
               </SelectItem>
             ))}
