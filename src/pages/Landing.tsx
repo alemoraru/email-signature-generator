@@ -2,10 +2,15 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
-import { Footer } from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
 import type { SignatureData } from "@/types/signature";
-import { SiGmail, SiApple, SiThunderbird, SiProtonmail } from "react-icons/si";
+import {
+  SiGmail,
+  SiApple,
+  SiThunderbird,
+  SiProtonmail,
+  SiGithub,
+} from "react-icons/si";
 import { FaYahoo } from "react-icons/fa6";
 import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 
@@ -181,6 +186,25 @@ const Landing = () => {
                 ))}
               </div>
             </div>
+
+            {/* GitHub Link */}
+            <div className="pt-2 space-y-1">
+              <p className="text-sm text-white/50">
+                Want to customize this even more?
+              </p>
+              <a
+                href="https://github.com/alemoraru/email-signature-generator"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white/90 transition-colors group"
+              >
+                <SiGithub className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>
+                  Check the source code on GitHub{" "}
+                  <span className="text-white/50">@alemoraru</span>
+                </span>
+              </a>
+            </div>
           </div>
 
           {/* Right Column - Mock Email Previews */}
@@ -208,12 +232,18 @@ const Landing = () => {
             </div>
           </div>
 
-          {/* Mobile Preview - Single Email */}
-          <div className="lg:hidden max-w-md mx-auto">
+          {/* Mobile Preview - Two Emails */}
+          <div className="lg:hidden max-w-md mx-auto space-y-6">
             <EmailTemplate
               data={sampleSignature1}
               device="mobile"
               previewTheme="light"
+              compact
+            />
+            <EmailTemplate
+              data={sampleSignature2}
+              device="mobile"
+              previewTheme="dark"
               compact
             />
           </div>
