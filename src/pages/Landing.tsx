@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
-import { ArrowRight } from "lucide-react";
-import type { SignatureData } from "@/types/signature";
+import { EmailClientBadge } from "@/components/EmailClientBadge";
+import { ArrowRight, ChevronRight } from "lucide-react";
+import type { SignatureData, SignatureStyle } from "@/types/signature";
 import {
   SiGmail,
   SiApple,
@@ -97,7 +98,18 @@ const emailClients = [
   { name: "Thunderbird", icon: ThunderbirdIcon },
 ];
 
+const availableStyles: SignatureStyle[] = [
+  "classic",
+  "modern",
+  "minimal",
+  "compact",
+  "professional",
+  "bold",
+];
+
 const Landing = () => {
+  const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
+
   useEffect(() => {
     // Set body background to match landing page
     document.body.style.backgroundColor = "#0a1628";
@@ -107,6 +119,20 @@ const Landing = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+
+  // Auto-cycle through styles every 8 seconds (desktop only)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentStyleIndex((prev) => (prev + 1) % availableStyles.length);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Handle manual style cycling
+  const handleNextStyle = () => {
+    setCurrentStyleIndex((prev) => (prev + 1) % availableStyles.length);
+  };
 
   return (
     <div className="min-h-screen bg-[#0a1628] relative flex flex-col">
@@ -157,7 +183,7 @@ const Landing = () => {
             </div>
 
             {/* CTA */}
-            <div>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <Link to="/editor">
                 <Button
                   size="lg"
@@ -167,6 +193,25 @@ const Landing = () => {
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
+
+              {/* Rolling Style Indicator - Clickable */}
+              <button
+                onClick={handleNextStyle}
+                className="hidden sm:flex items-center gap-2 px-4 h-11 bg-white/8 border border-white/15 rounded-lg hover:bg-white/12 hover:border-blue-400/30 hover:shadow-lg hover:shadow-blue-400/10 transition-all cursor-pointer group"
+              >
+                <span className="text-xs text-white/50 font-medium">
+                  Signature Style:
+                </span>
+                <div className="relative h-5 overflow-hidden min-w-[80px]">
+                  <div
+                    key={currentStyleIndex}
+                    className="animate-roll-up text-sm font-semibold text-blue-400 capitalize"
+                  >
+                    {availableStyles[currentStyleIndex]}
+                  </div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-blue-400/70 group-hover:translate-x-0.5 transition-all" />
+              </button>
             </div>
 
             {/* Email Clients */}
@@ -176,13 +221,11 @@ const Landing = () => {
               </p>
               <div className="flex flex-wrap gap-2 sm:gap-3">
                 {emailClients.map((client) => (
-                  <div
+                  <EmailClientBadge
                     key={client.name}
-                    className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/5 text-white/70 border border-white/10 hover:bg-white/10 transition-colors"
-                  >
-                    <client.icon />
-                    <span className="text-xs sm:text-sm">{client.name}</span>
-                  </div>
+                    name={client.name}
+                    icon={client.icon}
+                  />
                 ))}
               </div>
             </div>
@@ -211,9 +254,12 @@ const Landing = () => {
           <div className="relative hidden lg:block h-[420px]">
             <div className="absolute inset-0">
               {/* First Email Mock - Light Theme */}
-              <div className="absolute bottom-10 left-15 transform rotate-[-2deg] w-[500px]">
+              <div className="absolute bottom-10 left-15 transform rotate-[-2deg] w-[500px] transition-opacity duration-500">
                 <EmailTemplate
-                  data={sampleSignature1}
+                  data={{
+                    ...sampleSignature1,
+                    style: availableStyles[currentStyleIndex],
+                  }}
                   device="desktop"
                   previewTheme="light"
                   compact
@@ -221,9 +267,12 @@ const Landing = () => {
               </div>
 
               {/* Second Email Mock - Dark Theme */}
-              <div className="absolute top-24 left-48 transform rotate-[2deg] w-[500px]">
+              <div className="absolute top-24 left-48 transform rotate-[2deg] w-[500px] transition-opacity duration-500">
                 <EmailTemplate
-                  data={sampleSignature2}
+                  data={{
+                    ...sampleSignature2,
+                    style: availableStyles[currentStyleIndex],
+                  }}
                   device="desktop"
                   previewTheme="dark"
                   compact
