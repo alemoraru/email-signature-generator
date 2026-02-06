@@ -1,5 +1,11 @@
-import { cn } from "@/lib/utils";
 import type { SignatureStyle } from "@/types/signature";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface StyleSelectorProps {
   value: SignatureStyle;
@@ -9,14 +15,14 @@ interface StyleSelectorProps {
 const styles: { value: SignatureStyle; label: string; description: string }[] =
   [
     {
-      value: "modern",
-      label: "Modern",
-      description: "Clean horizontal divider style",
-    },
-    {
       value: "classic",
       label: "Classic",
       description: "Traditional layout with logo on left",
+    },
+    {
+      value: "modern",
+      label: "Modern",
+      description: "Clean horizontal divider style",
     },
     {
       value: "minimal",
@@ -26,22 +32,31 @@ const styles: { value: SignatureStyle; label: string; description: string }[] =
   ];
 
 export function StyleSelector({ value, onChange }: StyleSelectorProps) {
+  const selectedStyle = styles.find((style) => style.value === value);
+
   return (
-    <div className="flex gap-2 lg:pr-1 lg:pl-2">
-      {styles.map((style) => (
-        <button
-          key={style.value}
-          onClick={() => onChange(style.value)}
-          className={cn(
-            "flex-1 px-3 py-2 rounded-lg border text-xs font-medium transition-all",
-            value === style.value
-              ? "border-accent bg-accent/10 text-accent"
-              : "border-border bg-surface text-muted-foreground hover:border-muted-foreground/50",
-          )}
-        >
-          {style.label}
-        </button>
-      ))}
-    </div>
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger className="w-full bg-background px-2.5 focus:ring-muted-foreground/30">
+        <SelectValue>
+          {selectedStyle?.label} - {selectedStyle?.description}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {styles.map((style) => (
+          <SelectItem
+            key={style.value}
+            value={style.value}
+            className="focus:bg-muted focus:text-foreground cursor-pointer"
+          >
+            <div className="flex flex-col">
+              <span className="font-medium">{style.label}</span>
+              <span className="text-xs text-muted-foreground">
+                {style.description}
+              </span>
+            </div>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
