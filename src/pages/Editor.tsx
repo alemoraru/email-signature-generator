@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { SignatureForm } from "@/components/SignatureForm";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { DeviceToggle } from "@/components/DeviceToggle";
@@ -11,6 +12,8 @@ import type {
   DeviceType,
   PreviewTheme,
 } from "@/types/signature";
+import { decodeSignatureFromUrl } from "@/lib/shareUtils";
+import { useToast } from "@/hooks/use-toast";
 
 const defaultData: SignatureData = {
   logo: null,
@@ -44,10 +47,46 @@ const defaultData: SignatureData = {
   fontFamily: "system",
 };
 
-const Index = () => {
+const Editor = () => {
   const [data, setData] = useState<SignatureData>(defaultData);
   const [device, setDevice] = useState<DeviceType>("desktop");
   const [previewTheme, setPreviewTheme] = useState<PreviewTheme>("light");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { toast } = useToast();
+
+  // Load signature from URL parameter on mount
+  useEffect(() => {
+    const shareParam = searchParams.get("s");
+    if (shareParam) {
+      decodeSignatureFromUrl(shareParam)
+        .then((sharedData) => {
+          // Merge with defaultData to ensure all fields exist
+          setData({
+            ...defaultData,
+            ...sharedData,
+            colors: { ...defaultData.colors, ...sharedData.colors },
+          });
+          // Remove param from URL after loading
+          setSearchParams({});
+          // Show success toast
+          toast({
+            title: "Signature loaded!",
+            description: "The shared signature has been loaded successfully.",
+          });
+        })
+        .catch((error) => {
+          console.error("Failed to load shared signature:", error);
+          toast({
+            title: "Failed to load shared signature",
+            description:
+              "The share link appears to be invalid or corrupted. Using default signature instead.",
+            variant: "destructive",
+          });
+          // Keep defaultData
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   // Warn user before leaving/refreshing if they have made changes
   useEffect(() => {
@@ -79,7 +118,7 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container max-w-7xl mx-auto px-4 sm:px-6 py-3 lg:py-3 flex-1 lg:overflow-hidden">
-        <div className="grid lg:grid-cols-[360px_1fr] gap-4 lg:h-full">
+        <div className="grid lg:grid-cols-[380px_1fr] gap-4 lg:h-full">
           {/* Left Panel - Form */}
           <aside className="flex flex-col lg:h-full lg:min-h-0">
             <div className="bg-card rounded-xl border border-border p-4 shadow-subtle flex flex-col lg:h-full lg:overflow-hidden lg:min-h-0">
@@ -95,7 +134,7 @@ const Index = () => {
                   Customize
                 </h2>
               </div>
-              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-1 lg:pl-2 lg:min-h-0">
+              <div className="lg:flex-1 lg:overflow-y-auto lg:scrollbar-subtle lg:pr-3 lg:pl-2 lg:min-h-0">
                 <SignatureForm data={data} onChange={setData} />
               </div>
             </div>
@@ -132,4 +171,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Editor;

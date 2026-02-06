@@ -35,6 +35,10 @@ A professional email signature generator built with modern web technologies.
 - **Live preview** of the signature as you customize it, with theme support (light/dark), and screen size
   responsiveness.
 - **Copy to clipboard** functionality for easy signature insertion.
+- **Share signature** via a unique URL that encodes the signature data, allowing others to view and copy it without
+  needing to recreate it from scratch.
+
+> **Note**: _This does not include a logo image upload feature, since that would require backend support.
 
 ---
 

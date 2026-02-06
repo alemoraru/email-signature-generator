@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { ArrowRight } from "lucide-react";
 import type { SignatureData } from "@/types/signature";
-import { SiGmail, SiApple, SiThunderbird, SiProtonmail } from "react-icons/si";
+import {
+  SiGmail,
+  SiApple,
+  SiThunderbird,
+  SiProtonmail,
+  SiGithub,
+} from "react-icons/si";
 import { FaYahoo } from "react-icons/fa6";
 import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 
@@ -103,7 +109,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a1628] relative">
+    <div className="min-h-screen bg-[#0a1628] relative flex flex-col">
       {/* Starry background effect */}
       <div
         className="fixed inset-0 pointer-events-none bg-[#0a1628]"
@@ -133,7 +139,7 @@ const Landing = () => {
       </div>
 
       {/* Main Content */}
-      <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen py-12 sm:py-16 lg:py-8 flex items-center">
+      <main className="relative container mx-auto px-4 sm:px-6 flex-1 py-12 sm:py-16 lg:py-8 flex items-center">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-12 items-center w-full">
           {/* Left Column - Marketing Copy */}
           <div className="space-y-6 sm:space-y-8">
@@ -180,6 +186,25 @@ const Landing = () => {
                 ))}
               </div>
             </div>
+
+            {/* GitHub Link */}
+            <div className="pt-2 space-y-1">
+              <p className="text-sm text-white/50">
+                Want to customize this even more?
+              </p>
+              <a
+                href="https://github.com/alemoraru/email-signature-generator"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white/90 transition-colors group"
+              >
+                <SiGithub className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                <span>
+                  Check the source code on GitHub{" "}
+                  <span className="text-white/50">@alemoraru</span>
+                </span>
+              </a>
+            </div>
           </div>
 
           {/* Right Column - Mock Email Previews */}
@@ -207,12 +232,18 @@ const Landing = () => {
             </div>
           </div>
 
-          {/* Mobile Preview - Single Email */}
-          <div className="lg:hidden max-w-md mx-auto">
+          {/* Mobile Preview - Two Emails */}
+          <div className="lg:hidden max-w-md mx-auto space-y-6">
             <EmailTemplate
               data={sampleSignature1}
               device="mobile"
               previewTheme="light"
+              compact
+            />
+            <EmailTemplate
+              data={sampleSignature2}
+              device="mobile"
+              previewTheme="dark"
               compact
             />
           </div>
