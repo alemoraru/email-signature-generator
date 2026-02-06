@@ -44,7 +44,7 @@ const defaultData: SignatureData = {
   fontFamily: "system",
 };
 
-const Index = () => {
+const Editor = () => {
   const [data, setData] = useState<SignatureData>(defaultData);
   const [device, setDevice] = useState<DeviceType>("desktop");
   const [previewTheme, setPreviewTheme] = useState<PreviewTheme>("light");
@@ -132,4 +132,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Editor;

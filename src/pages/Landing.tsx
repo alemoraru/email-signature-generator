@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
+import { Footer } from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
 import type { SignatureData } from "@/types/signature";
 import { SiGmail, SiApple, SiThunderbird, SiProtonmail } from "react-icons/si";
@@ -103,7 +104,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a1628] relative">
+    <div className="min-h-screen bg-[#0a1628] relative flex flex-col">
       {/* Starry background effect */}
       <div
         className="fixed inset-0 pointer-events-none bg-[#0a1628]"
@@ -133,7 +134,7 @@ const Landing = () => {
       </div>
 
       {/* Main Content */}
-      <main className="relative container max-w-7xl mx-auto px-4 sm:px-6 min-h-screen py-12 sm:py-16 lg:py-8 flex items-center">
+      <main className="relative container mx-auto px-4 sm:px-6 flex-1 py-12 sm:py-16 lg:py-8 flex items-center">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-12 items-center w-full">
           {/* Left Column - Marketing Copy */}
           <div className="space-y-6 sm:space-y-8">
