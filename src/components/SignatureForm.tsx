@@ -24,6 +24,7 @@ import type {
   SignatureLink,
   FontFamily,
 } from "@/types/signature";
+import { cn } from "@/lib/utils.ts";
 
 interface SignatureFormProps {
   data: SignatureData;
@@ -203,7 +204,12 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             </div>
           </div>
         ) : (
-          <label className="flex items-center gap-3 px-3 py-2 border border-dashed border-border rounded-lg cursor-pointer hover:border-muted-foreground/50 transition-colors bg-surface/50">
+          <label
+            className={cn(
+              "flex items-center gap-3 px-3 py-2 border border-dashed border-border",
+              "rounded-lg cursor-pointer hover:border-accent/50 transition-colors bg-surface/50",
+            )}
+          >
             <Upload className="w-4 h-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Upload logo</span>
             <input
