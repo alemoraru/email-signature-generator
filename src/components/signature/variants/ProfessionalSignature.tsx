@@ -12,6 +12,11 @@ export function ProfessionalSignature({
 }: SignatureStyleProps) {
   const validLinks = data.links.filter((l) => l.url);
 
+  // Spacing multiplier based on spacing setting
+  const spacingMultiplier =
+    data.spacing === "compact" ? 0.6 : data.spacing === "relaxed" ? 1.4 : 1;
+  const space = (base: number) => `${base * spacingMultiplier}px`;
+
   return (
     <table
       cellPadding="0"
@@ -28,7 +33,7 @@ export function ProfessionalSignature({
         <tr>
           {data.logo && (
             <>
-              <td style={{ paddingRight: "16px", verticalAlign: "top" }}>
+              <td style={{ paddingRight: space(16), verticalAlign: "top" }}>
                 <img
                   src={data.logo}
                   alt="Logo"
@@ -45,17 +50,17 @@ export function ProfessionalSignature({
               </td>
               <td
                 style={{
-                  paddingRight: "16px",
+                  paddingRight: space(16),
                   borderRight: `2px solid ${isDark ? "#4b5563" : "#e5e7eb"}`,
                 }}
               />
             </>
           )}
-          <td style={{ paddingLeft: data.logo ? "16px" : "0" }}>
+          <td style={{ paddingLeft: data.logo ? space(16) : "0" }}>
             {data.name && (
               <p
                 style={{
-                  margin: "0 0 4px 0",
+                  margin: `0 0 ${space(4)} 0`,
                   fontWeight: 700,
                   fontSize: "17px",
                   color: textColor,
@@ -68,7 +73,7 @@ export function ProfessionalSignature({
             {data.title && (
               <p
                 style={{
-                  margin: "0 0 2px 0",
+                  margin: `0 0 ${space(2)} 0`,
                   fontSize: "14px",
                   color: primaryColor,
                   fontWeight: 500,
@@ -80,7 +85,7 @@ export function ProfessionalSignature({
             {data.company && (
               <p
                 style={{
-                  margin: "0 0 8px 0",
+                  margin: `0 0 ${space(8)} 0`,
                   fontSize: "13px",
                   color: mutedColor,
                 }}
@@ -89,7 +94,7 @@ export function ProfessionalSignature({
               </p>
             )}
             {data.email && (
-              <p style={{ margin: "0 0 4px 0", fontSize: "13px" }}>
+              <p style={{ margin: `0 0 ${space(4)} 0`, fontSize: "13px" }}>
                 <a
                   href={`mailto:${data.email}`}
                   style={{ color: textColor, textDecoration: "none" }}
@@ -98,8 +103,28 @@ export function ProfessionalSignature({
                 </a>
               </p>
             )}
+            {data.phone && (
+              <p
+                style={{
+                  margin: `0 0 ${space(validLinks.length > 0 ? 4 : data.cta?.enabled ? 8 : 0)} 0`,
+                  fontSize: "13px",
+                }}
+              >
+                <a
+                  href={`tel:${data.phone.replace(/\s/g, "")}`}
+                  style={{ color: textColor, textDecoration: "none" }}
+                >
+                  {data.phone}
+                </a>
+              </p>
+            )}
             {validLinks.length > 0 && (
-              <p style={{ margin: "0", fontSize: "13px" }}>
+              <p
+                style={{
+                  margin: `0 0 ${data.cta?.enabled ? space(8) : 0} 0`,
+                  fontSize: "13px",
+                }}
+              >
                 {validLinks.map((link, index) => (
                   <span key={link.id}>
                     <a
@@ -115,6 +140,25 @@ export function ProfessionalSignature({
                     )}
                   </span>
                 ))}
+              </p>
+            )}
+            {data.cta?.enabled && data.cta.url && (
+              <p style={{ margin: "0" }}>
+                <a
+                  href={data.cta.url}
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: primaryColor,
+                    color: "#ffffff",
+                    padding: `${space(8)} ${space(16)}`,
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                    fontSize: "13px",
+                  }}
+                >
+                  {data.cta.text || "Learn More"}
+                </a>
               </p>
             )}
           </td>
