@@ -10,6 +10,13 @@ export function MinimalSignature({
 }: SignatureStyleProps) {
   const validLinks = data.links.filter((l) => l.url);
 
+  // Spacing multiplier based on spacing setting
+  const spacingMultiplier =
+    data.spacing === "compact" ? 0.6 : data.spacing === "relaxed" ? 1.4 : 1;
+  const space = (base: number) => `${base * spacingMultiplier}px`;
+
+  const hasPhoneOrLinks = data.phone || validLinks.length > 0;
+
   return (
     <table
       cellPadding="0"
@@ -28,7 +35,7 @@ export function MinimalSignature({
             {data.name && (
               <p
                 style={{
-                  margin: "0 0 4px 0",
+                  margin: `0 0 ${space(4)} 0`,
                   fontWeight: 600,
                   fontSize: "14px",
                   color: textColor,
@@ -47,7 +54,7 @@ export function MinimalSignature({
             )}
             <p
               style={{
-                margin: "0",
+                margin: `0 0 ${data.cta?.enabled ? space(8) : 0} 0`,
                 display: "flex",
                 alignItems: "center",
                 flexWrap: "wrap",
@@ -64,6 +71,24 @@ export function MinimalSignature({
                     }}
                   >
                     {data.email}
+                  </a>
+                  {hasPhoneOrLinks && (
+                    <span style={{ color: mutedColor, margin: "0 6px" }}>
+                      |
+                    </span>
+                  )}
+                </>
+              )}
+              {data.phone && (
+                <>
+                  <a
+                    href={`tel:${data.phone.replace(/\s/g, "")}`}
+                    style={{
+                      color: primaryColor,
+                      textDecoration: "none",
+                    }}
+                  >
+                    {data.phone}
                   </a>
                   {validLinks.length > 0 && (
                     <span style={{ color: mutedColor, margin: "0 6px" }}>
@@ -94,6 +119,25 @@ export function MinimalSignature({
                 </span>
               ))}
             </p>
+            {data.cta?.enabled && data.cta.url && (
+              <p style={{ margin: "0" }}>
+                <a
+                  href={data.cta.url}
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: primaryColor,
+                    color: "#ffffff",
+                    padding: `${space(8)} ${space(16)}`,
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                    fontSize: "13px",
+                  }}
+                >
+                  {data.cta.text || "Learn More"}
+                </a>
+              </p>
+            )}
           </td>
         </tr>
       </tbody>

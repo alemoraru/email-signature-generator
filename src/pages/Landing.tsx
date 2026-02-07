@@ -116,6 +116,9 @@ interface StarDustParticle {
   driftY: number;
 }
 
+/**
+ * Landing page component for the Email Signature Generator app.
+ */
 const Landing = () => {
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);

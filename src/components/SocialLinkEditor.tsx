@@ -58,6 +58,9 @@ export function SocialLinkEditor({
 }: SocialLinkEditorProps) {
   const hasInvalidUrl = !isValidUrl(link.url);
 
+  const providerLabel =
+    socialProviders.find((p) => p.value === link.provider)?.label || "Custom";
+
   return (
     <div
       draggable
@@ -67,12 +70,18 @@ export function SocialLinkEditor({
       className={`flex items-center gap-2 p-2 rounded-lg border border-border bg-surface transition-all hover:border-border/60 relative overflow-visible ${
         draggedIndex === index ? "opacity-50" : ""
       }`}
+      role="listitem"
+      aria-label={`Link ${index + 1}: ${providerLabel}`}
     >
       {hasInvalidUrl && (
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-yellow-500 flex items-center justify-center shadow-sm">
+              <div
+                className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-yellow-500 flex items-center justify-center shadow-sm"
+                role="img"
+                aria-label="Warning: Invalid URL"
+              >
                 <CircleAlert className="w-3 h-3 text-white" />
               </div>
             </TooltipTrigger>
@@ -84,7 +93,14 @@ export function SocialLinkEditor({
           </Tooltip>
         </TooltipProvider>
       )}
-      <GripVertical className="w-3.5 h-3.5 text-muted-foreground cursor-grab flex-shrink-0" />
+      <div
+        className="cursor-grab flex-shrink-0"
+        aria-label="Drag handle to reorder link"
+        role="button"
+        tabIndex={0}
+      >
+        <GripVertical className="w-3.5 h-3.5 text-muted-foreground" />
+      </div>
 
       <Select
         value={link.provider}
@@ -92,7 +108,10 @@ export function SocialLinkEditor({
           onUpdate(link.id, "provider", value)
         }
       >
-        <SelectTrigger className="w-32 h-8 text-xs">
+        <SelectTrigger
+          className="w-32 h-8 text-xs"
+          aria-label={`Link provider: ${providerLabel}`}
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -110,7 +129,11 @@ export function SocialLinkEditor({
 
       <div className="flex-1" />
 
-      <div className="flex items-center gap-1">
+      <div
+        className="flex items-center gap-1"
+        role="group"
+        aria-label="Link actions"
+      >
         <EditLinkDialog link={link} onUpdateBulk={onUpdateBulk} />
 
         <Button
@@ -118,6 +141,7 @@ export function SocialLinkEditor({
           size="icon"
           onClick={() => onRemove(link.id)}
           className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-7 w-7 flex-shrink-0"
+          aria-label={`Remove ${providerLabel} link`}
         >
           <Trash2 className="w-3 h-3" />
         </Button>

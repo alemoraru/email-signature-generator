@@ -12,6 +12,11 @@ export function ClassicSignature({
 }: SignatureStyleProps) {
   const validLinks = data.links.filter((l) => l.url);
 
+  // Spacing multiplier based on spacing setting
+  const spacingMultiplier =
+    data.spacing === "compact" ? 0.6 : data.spacing === "relaxed" ? 1.4 : 1;
+  const space = (base: number) => `${base * spacingMultiplier}px`;
+
   return (
     <table
       cellPadding="0"
@@ -27,7 +32,7 @@ export function ClassicSignature({
       <tbody>
         <tr>
           {data.logo && (
-            <td style={{ paddingRight: "16px", verticalAlign: "top" }}>
+            <td style={{ paddingRight: space(16), verticalAlign: "top" }}>
               <img
                 src={data.logo}
                 alt="Logo"
@@ -47,7 +52,7 @@ export function ClassicSignature({
             {data.name && (
               <p
                 style={{
-                  margin: "0 0 2px 0",
+                  margin: `0 0 ${space(2)} 0`,
                   fontWeight: 600,
                   fontSize: "16px",
                   color: textColor,
@@ -57,7 +62,7 @@ export function ClassicSignature({
               </p>
             )}
             {(data.title || data.company) && (
-              <p style={{ margin: "0 0 8px 0" }}>
+              <p style={{ margin: `0 0 ${space(8)} 0` }}>
                 {data.title && (
                   <span style={{ color: mutedColor }}>{data.title}</span>
                 )}
@@ -72,7 +77,7 @@ export function ClassicSignature({
               </p>
             )}
             {data.email && (
-              <p style={{ margin: validLinks.length > 0 ? "0 0 6px 0" : "0" }}>
+              <p style={{ margin: `0 0 ${space(4)} 0` }}>
                 <a
                   href={`mailto:${data.email}`}
                   style={{
@@ -84,8 +89,27 @@ export function ClassicSignature({
                 </a>
               </p>
             )}
+            {data.phone && (
+              <p
+                style={{
+                  margin: `0 0 ${space(validLinks.length > 0 ? 6 : 0)} 0`,
+                }}
+              >
+                <a
+                  href={`tel:${data.phone.replace(/\s/g, "")}`}
+                  style={{
+                    color: primaryColor,
+                    textDecoration: "none",
+                  }}
+                >
+                  {data.phone}
+                </a>
+              </p>
+            )}
             {validLinks.length > 0 && (
-              <p style={{ margin: "0" }}>
+              <p
+                style={{ margin: `0 0 ${data.cta?.enabled ? space(8) : 0} 0` }}
+              >
                 {validLinks.map((link, index) => (
                   <span key={link.id}>
                     <a
@@ -109,6 +133,25 @@ export function ClassicSignature({
                     )}
                   </span>
                 ))}
+              </p>
+            )}
+            {data.cta?.enabled && data.cta.url && (
+              <p style={{ margin: "0" }}>
+                <a
+                  href={data.cta.url}
+                  style={{
+                    display: "inline-block",
+                    backgroundColor: primaryColor,
+                    color: "#ffffff",
+                    padding: `${space(8)} ${space(16)}`,
+                    borderRadius: "6px",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                    fontSize: "13px",
+                  }}
+                >
+                  {data.cta.text || "Learn More"}
+                </a>
               </p>
             )}
           </td>

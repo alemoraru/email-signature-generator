@@ -1,6 +1,6 @@
 import type { SignatureStyleProps } from "../types.ts";
 import { getLinkUrl, renderLinkContent } from "../utils.tsx";
-import { Mail } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 export function ModernSignature({
   data,
@@ -11,6 +11,11 @@ export function ModernSignature({
   logoSize,
 }: SignatureStyleProps) {
   const validLinks = data.links.filter((l) => l.url);
+
+  // Spacing multiplier based on spacing setting
+  const spacingMultiplier =
+    data.spacing === "compact" ? 0.6 : data.spacing === "relaxed" ? 1.4 : 1;
+  const space = (base: number) => `${base * spacingMultiplier}px`;
 
   return (
     <table
@@ -26,14 +31,14 @@ export function ModernSignature({
     >
       <tbody>
         <tr>
-          <td style={{ paddingBottom: "12px" }}>
+          <td style={{ paddingBottom: space(12) }}>
             <table cellPadding="0" cellSpacing="0" border={0}>
               <tbody>
                 <tr>
                   {data.logo && (
                     <td
                       style={{
-                        paddingRight: "12px",
+                        paddingRight: space(12),
                         verticalAlign: "middle",
                       }}
                     >
@@ -66,7 +71,12 @@ export function ModernSignature({
                       </p>
                     )}
                     {(data.title || data.company) && (
-                      <p style={{ margin: "2px 0 0 0", fontSize: "13px" }}>
+                      <p
+                        style={{
+                          margin: `${space(2)} 0 0 0`,
+                          fontSize: "13px",
+                        }}
+                      >
                         {data.title && (
                           <span style={{ color: mutedColor }}>
                             {data.title}
@@ -93,7 +103,8 @@ export function ModernSignature({
         <tr>
           <td
             style={{
-              paddingTop: "12px",
+              paddingTop: space(12),
+              paddingBottom: data.cta?.enabled ? space(12) : 0,
               borderTop: `2px solid ${primaryColor}`,
             }}
           >
@@ -101,7 +112,7 @@ export function ModernSignature({
               <tbody>
                 <tr>
                   {data.email && (
-                    <td style={{ paddingRight: "16px" }}>
+                    <td style={{ paddingRight: space(16) }}>
                       <a
                         href={`mailto:${data.email}`}
                         style={{
@@ -118,8 +129,26 @@ export function ModernSignature({
                       </a>
                     </td>
                   )}
+                  {data.phone && (
+                    <td style={{ paddingRight: space(16) }}>
+                      <a
+                        href={`tel:${data.phone.replace(/\s/g, "")}`}
+                        style={{
+                          color: textColor,
+                          textDecoration: "none",
+                          fontSize: "13px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "4px",
+                        }}
+                      >
+                        <Phone size={16} style={{ color: textColor }} />
+                        <span>{data.phone}</span>
+                      </a>
+                    </td>
+                  )}
                   {validLinks.map((link) => (
-                    <td key={link.id} style={{ paddingRight: "16px" }}>
+                    <td key={link.id} style={{ paddingRight: space(16) }}>
                       <a
                         href={getLinkUrl(link)}
                         style={{
@@ -137,6 +166,27 @@ export function ModernSignature({
             </table>
           </td>
         </tr>
+        {data.cta?.enabled && data.cta.url && (
+          <tr>
+            <td>
+              <a
+                href={data.cta.url}
+                style={{
+                  display: "inline-block",
+                  backgroundColor: primaryColor,
+                  color: "#ffffff",
+                  padding: `${space(8)} ${space(16)}`,
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  fontWeight: 500,
+                  fontSize: "13px",
+                }}
+              >
+                {data.cta.text || "Learn More"}
+              </a>
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );

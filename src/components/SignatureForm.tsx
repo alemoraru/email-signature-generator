@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Upload, X } from "lucide-react";
+import { Plus, Upload, X, AlertCircle } from "lucide-react";
 import { SocialLinkEditor } from "@/components/SocialLinkEditor";
 import type {
   SignatureData,
@@ -25,6 +25,7 @@ import type {
   FontFamily,
 } from "@/types/signature";
 import { cn } from "@/lib/utils.ts";
+import { validateEmail, validatePhone, validateUrl } from "@/lib/validation";
 
 interface SignatureFormProps {
   data: SignatureData;
@@ -58,12 +59,35 @@ const fontOptions: { value: FontFamily; label: string }[] = [
 export function SignatureForm({ data, onChange }: SignatureFormProps) {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [customColor, setCustomColor] = useState("");
+  const [emailError, setEmailError] = useState<string | undefined>();
+  const [phoneError, setPhoneError] = useState<string | undefined>();
+  const [ctaUrlError, setCtaUrlError] = useState<string | undefined>();
 
   const updateField = <K extends keyof SignatureData>(
     field: K,
     value: SignatureData[K],
   ) => {
     onChange({ ...data, [field]: value });
+  };
+
+  const handleEmailChange = (value: string) => {
+    updateField("email", value);
+    const validation = validateEmail(value);
+    setEmailError(validation.message);
+  };
+
+  const handlePhoneChange = (value: string) => {
+    updateField("phone", value);
+    const validation = validatePhone(value);
+    setPhoneError(validation.message);
+  };
+
+  const handleCtaUrlChange = (value: string) => {
+    if (data.cta) {
+      updateField("cta", { ...data.cta, url: value });
+      const validation = validateUrl(value);
+      setCtaUrlError(validation.message);
+    }
   };
 
   const updatePrimaryColor = (value: string) => {
@@ -170,7 +194,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               <div className="relative w-10 h-10 rounded-lg border border-border overflow-hidden bg-surface">
                 <img
                   src={data.logo}
-                  alt="Logo"
+                  alt="Company logo preview"
                   className="w-full h-full object-contain"
                 />
               </div>
@@ -179,27 +203,36 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
                 size="sm"
                 onClick={removeLogo}
                 className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 h-8 text-xs"
+                aria-label="Remove logo"
               >
-                <X className="w-3 h-3 mr-1" />
+                <X className="w-3 h-3 mr-1" aria-hidden="true" />
                 Remove
               </Button>
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label className="text-xs text-muted-foreground">
+                <Label
+                  htmlFor="logo-size"
+                  className="text-xs text-muted-foreground"
+                >
                   Logo Size
                 </Label>
-                <span className="text-xs text-muted-foreground font-mono">
+                <span
+                  className="text-xs text-muted-foreground font-mono"
+                  aria-live="polite"
+                >
                   {data.logoSize}px
                 </span>
               </div>
               <Slider
+                id="logo-size"
                 value={[data.logoSize]}
                 onValueChange={(value) => updateField("logoSize", value[0])}
                 min={32}
                 max={80}
                 step={2}
                 className="w-full"
+                aria-label="Logo size in pixels"
               />
             </div>
           </div>
@@ -208,15 +241,29 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             className={cn(
               "flex items-center gap-3 px-3 py-2 border border-dashed border-border",
               "rounded-lg cursor-pointer hover:border-accent/50 transition-colors bg-surface/50",
+              "focus-within:ring-2 focus-within:ring-accent focus-within:ring-offset-2",
             )}
+            tabIndex={0}
+            role="button"
+            aria-label="Upload company logo"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.currentTarget.querySelector("input")?.click();
+              }
+            }}
           >
-            <Upload className="w-4 h-4 text-muted-foreground" />
+            <Upload
+              className="w-4 h-4 text-muted-foreground"
+              aria-hidden="true"
+            />
             <span className="text-sm text-muted-foreground">Upload logo</span>
             <input
               type="file"
               accept="image/*"
-              className="hidden"
+              className="sr-only"
               onChange={handleLogoUpload}
+              aria-label="Logo file input"
             />
           </label>
         )}
@@ -236,6 +283,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               onChange={(e) => updateField("name", e.target.value)}
               placeholder="John Doe"
               className="bg-surface border-border focus:border-accent h-9"
+              aria-required="true"
             />
           </div>
           <div className="space-y-1">
@@ -266,14 +314,67 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             <Label htmlFor="email" className="text-xs text-muted-foreground">
               Email
             </Label>
-            <Input
-              id="email"
-              type="email"
-              value={data.email}
-              onChange={(e) => updateField("email", e.target.value)}
-              placeholder="john@acme.com"
-              className="bg-surface border-border focus:border-accent h-9"
-            />
+            <div className="relative">
+              <Input
+                id="email"
+                type="email"
+                value={data.email}
+                onChange={(e) => handleEmailChange(e.target.value)}
+                placeholder="john@acme.com"
+                className={cn(
+                  "bg-surface border-border focus:border-accent h-9",
+                  emailError &&
+                    "border-destructive focus:border-destructive pr-8",
+                )}
+                aria-label="Email address"
+                aria-invalid={!!emailError}
+                aria-describedby={emailError ? "email-error" : undefined}
+              />
+              {emailError && (
+                <AlertCircle className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-destructive" />
+              )}
+            </div>
+            {emailError && (
+              <p
+                id="email-error"
+                className="text-xs text-destructive flex items-center gap-1 mt-1"
+              >
+                {emailError}
+              </p>
+            )}
+          </div>
+          <div className="space-y-1 col-span-2">
+            <Label htmlFor="phone" className="text-xs text-muted-foreground">
+              Phone (optional)
+            </Label>
+            <div className="relative">
+              <Input
+                id="phone"
+                type="tel"
+                value={data.phone || ""}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                placeholder="+1 (555) 123-4567"
+                className={cn(
+                  "bg-surface border-border focus:border-accent h-9",
+                  phoneError &&
+                    "border-destructive focus:border-destructive pr-8",
+                )}
+                aria-label="Phone number"
+                aria-invalid={!!phoneError}
+                aria-describedby={phoneError ? "phone-error" : undefined}
+              />
+              {phoneError && (
+                <AlertCircle className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-destructive" />
+              )}
+            </div>
+            {phoneError && (
+              <p
+                id="phone-error"
+                className="text-xs text-destructive flex items-center gap-1 mt-1"
+              >
+                {phoneError}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -312,6 +413,95 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
               No links added yet
             </p>
           )}
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="space-y-2">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-medium text-foreground">
+            Call-to-Action Button
+          </h3>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={data.cta?.enabled || false}
+              onChange={(e) =>
+                updateField("cta", {
+                  enabled: e.target.checked,
+                  text: data.cta?.text || "Book a Meeting",
+                  url: data.cta?.url || "",
+                })
+              }
+              className="w-4 h-4 rounded border-border text-accent focus:ring-accent focus:ring-offset-0"
+              aria-label="Enable call-to-action button"
+            />
+            <span className="text-xs text-muted-foreground">Enable</span>
+          </label>
+        </div>
+        <div
+          className={cn(
+            "space-y-2 p-3 rounded-lg border border-border/30 bg-surface/50 transition-opacity",
+            !data.cta?.enabled && "opacity-50",
+          )}
+        >
+          <div className="space-y-1">
+            <Label htmlFor="cta-text" className="text-xs text-muted-foreground">
+              Button Text
+            </Label>
+            <Input
+              id="cta-text"
+              value={data.cta?.text || ""}
+              onChange={(e) =>
+                updateField("cta", {
+                  enabled: data.cta?.enabled || false,
+                  text: e.target.value,
+                  url: data.cta?.url || "",
+                })
+              }
+              placeholder="Book a Meeting"
+              className="bg-surface border-border focus:border-accent h-9"
+              aria-label="Call-to-action button text"
+              disabled={!data.cta?.enabled}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="cta-url" className="text-xs text-muted-foreground">
+              Button URL
+            </Label>
+            <div className="relative">
+              <Input
+                id="cta-url"
+                type="url"
+                value={data.cta?.url || ""}
+                onChange={(e) => handleCtaUrlChange(e.target.value)}
+                placeholder="https://calendly.com/your-link"
+                className={cn(
+                  "bg-surface border-border focus:border-accent h-9",
+                  ctaUrlError &&
+                    data.cta?.enabled &&
+                    "border-destructive focus:border-destructive pr-8",
+                )}
+                aria-label="Call-to-action button URL"
+                aria-invalid={!!(ctaUrlError && data.cta?.enabled)}
+                aria-describedby={
+                  ctaUrlError && data.cta?.enabled ? "cta-url-error" : undefined
+                }
+                disabled={!data.cta?.enabled}
+              />
+              {ctaUrlError && data.cta?.enabled && (
+                <AlertCircle className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-destructive" />
+              )}
+            </div>
+            {ctaUrlError && data.cta?.enabled && (
+              <p
+                id="cta-url-error"
+                className="text-xs text-destructive flex items-center gap-1 mt-1"
+              >
+                {ctaUrlError}
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
@@ -361,7 +551,7 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
                           : "border border-border/40 hover:scale-105 hover:border-border"
                       }`}
                       style={{ backgroundColor: color.value }}
-                      aria-label={color.label}
+                      aria-label={`Select ${color.label} color`}
                     />
                   </TooltipTrigger>
                   <TooltipContent>
@@ -399,12 +589,50 @@ export function SignatureForm({ data, onChange }: SignatureFormProps) {
             onChange={(e) => handleCustomColorChange(e.target.value)}
             placeholder="#hex or rgb(r,g,b)"
             className="h-8 text-xs bg-surface border-border flex-1"
+            aria-label="Custom color value"
           />
           <div
             className="w-8 h-8 rounded border border-border flex-shrink-0"
             style={{ backgroundColor: data.colors.primary }}
+            aria-label="Color preview"
+            role="img"
           />
         </div>
+      </section>
+
+      {/* Spacing Controls */}
+      <section className="space-y-2">
+        <h3 className="text-sm font-medium text-foreground">Spacing</h3>
+        <Select
+          value={data.spacing}
+          onValueChange={(value: "compact" | "normal" | "relaxed") =>
+            updateField("spacing", value)
+          }
+        >
+          <SelectTrigger className="bg-surface border-border h-9 hover:border-accent/50 hover:bg-accent/5 transition-colors">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem
+              value="compact"
+              className="cursor-pointer focus:bg-accent/10 focus:text-accent"
+            >
+              Compact
+            </SelectItem>
+            <SelectItem
+              value="normal"
+              className="cursor-pointer focus:bg-accent/10 focus:text-accent"
+            >
+              Normal
+            </SelectItem>
+            <SelectItem
+              value="relaxed"
+              className="cursor-pointer focus:bg-accent/10 focus:text-accent"
+            >
+              Relaxed
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </section>
     </div>
   );

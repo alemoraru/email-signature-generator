@@ -22,6 +22,7 @@ const defaultData: SignatureData = {
   title: "Product Designer",
   company: "Acme Inc.",
   email: "john@acme.com",
+  phone: "+1 (555) 123-4567",
   links: [
     {
       id: "1",
@@ -45,6 +46,12 @@ const defaultData: SignatureData = {
   },
   style: "classic",
   fontFamily: "system",
+  spacing: "normal",
+  cta: {
+    enabled: false,
+    text: "Book a Meeting",
+    url: "https://calendly.com/johndoe",
+  },
 };
 
 const Editor = () => {

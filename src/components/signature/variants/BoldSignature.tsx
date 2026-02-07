@@ -11,6 +11,11 @@ export function BoldSignature({
 }: SignatureStyleProps) {
   const validLinks = data.links.filter((l) => l.url);
 
+  // Spacing multiplier based on spacing setting
+  const spacingMultiplier =
+    data.spacing === "compact" ? 0.6 : data.spacing === "relaxed" ? 1.4 : 1;
+  const space = (base: number) => `${base * spacingMultiplier}px`;
+
   return (
     <table
       cellPadding="0"
@@ -26,7 +31,7 @@ export function BoldSignature({
       <tbody>
         {data.name && (
           <tr>
-            <td style={{ paddingBottom: "8px" }}>
+            <td style={{ paddingBottom: space(8) }}>
               <p
                 style={{
                   margin: "0",
@@ -44,7 +49,7 @@ export function BoldSignature({
         )}
         {(data.title || data.company) && (
           <tr>
-            <td style={{ paddingBottom: "12px" }}>
+            <td style={{ paddingBottom: space(12) }}>
               <p style={{ margin: "0", fontSize: "14px" }}>
                 {data.title && (
                   <span style={{ color: textColor, fontWeight: 600 }}>
@@ -66,7 +71,8 @@ export function BoldSignature({
         <tr>
           <td
             style={{
-              paddingTop: "12px",
+              paddingTop: space(12),
+              paddingBottom: data.cta?.enabled ? space(12) : 0,
               borderTop: `3px solid ${primaryColor}`,
             }}
           >
@@ -76,7 +82,7 @@ export function BoldSignature({
                   {data.logo && (
                     <td
                       style={{
-                        paddingRight: "12px",
+                        paddingRight: space(12),
                         verticalAlign: "middle",
                       }}
                     >
@@ -98,7 +104,12 @@ export function BoldSignature({
                   )}
                   <td style={{ verticalAlign: "middle" }}>
                     {data.email && (
-                      <p style={{ margin: "0 0 4px 0", fontSize: "14px" }}>
+                      <p
+                        style={{
+                          margin: `0 0 ${space(4)} 0`,
+                          fontSize: "14px",
+                        }}
+                      >
                         <a
                           href={`mailto:${data.email}`}
                           style={{
@@ -108,6 +119,25 @@ export function BoldSignature({
                           }}
                         >
                           {data.email}
+                        </a>
+                      </p>
+                    )}
+                    {data.phone && (
+                      <p
+                        style={{
+                          margin: `0 0 ${space(validLinks.length > 0 ? 4 : 0)} 0`,
+                          fontSize: "14px",
+                        }}
+                      >
+                        <a
+                          href={`tel:${data.phone.replace(/\s/g, "")}`}
+                          style={{
+                            color: textColor,
+                            textDecoration: "none",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {data.phone}
                         </a>
                       </p>
                     )}
@@ -142,6 +172,29 @@ export function BoldSignature({
             </table>
           </td>
         </tr>
+        {data.cta?.enabled && data.cta.url && (
+          <tr>
+            <td>
+              <a
+                href={data.cta.url}
+                style={{
+                  display: "inline-block",
+                  backgroundColor: primaryColor,
+                  color: "#ffffff",
+                  padding: `${space(8)} ${space(16)}`,
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  fontWeight: 600,
+                  fontSize: "13px",
+                  textTransform: "uppercase" as const,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {data.cta.text || "Learn More"}
+              </a>
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );

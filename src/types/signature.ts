@@ -33,6 +33,14 @@ export interface SignatureColors {
   primary: string;
 }
 
+export type SpacingType = "compact" | "normal" | "relaxed";
+
+export interface CallToAction {
+  enabled: boolean;
+  text: string;
+  url: string;
+}
+
 export interface SignatureData {
   logo: string | null;
   logoSize: number;
@@ -40,10 +48,13 @@ export interface SignatureData {
   title: string;
   company: string;
   email: string;
+  phone?: string;
   links: SignatureLink[];
   colors: SignatureColors;
   style: SignatureStyle;
   fontFamily: FontFamily;
+  spacing?: SpacingType;
+  cta?: CallToAction;
 }
 
 export type DeviceType = "desktop" | "tablet" | "mobile";
