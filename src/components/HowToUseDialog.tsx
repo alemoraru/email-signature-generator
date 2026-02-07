@@ -25,61 +25,55 @@ export function HowToUseDialog() {
         <DialogHeader>
           <DialogTitle>How to use Email Signature Generator?</DialogTitle>
         </DialogHeader>
-        <ol className="text-sm text-muted-foreground space-y-3 list-decimal list-inside mt-4">
+        <ol className="text-sm text-muted-foreground space-y-2.5 list-decimal list-inside mt-4">
+          <li>
+            <span className="text-foreground font-medium">
+              Choose a signature style
+            </span>
+            <p className="text-xs mt-0.5 ml-4">
+              Select from 6 styles: Classic, Modern, Minimal, Compact,
+              Professional, or Bold.
+            </p>
+          </li>
           <li>
             <span className="text-foreground font-medium">
               Fill in your details
             </span>
-            <p className="text-xs mt-1 ml-4">
-              Add your name, title, company, email, and optionally upload a
-              logo. You can also adjust the logo size via a slider, if needed.
+            <p className="text-xs mt-0.5 ml-4">
+              Add name, title, company, email, and phone (optional). Upload a
+              logo and adjust its size. Real-time validation helps catch errors.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">
-              Add and customize links
+              Add links & call-to-action
             </span>
-            <p className="text-xs mt-1 ml-4">
-              Add relevant links (LinkedIn, website, etc.), then click the edit
-              icon to customize the URL, label, icon display and optional UTM
-              parameters. Drag links to reorder them.
+            <p className="text-xs mt-0.5 ml-4">
+              Add social links (LinkedIn, X, etc.) with UTM tracking. Enable a
+              CTA button for meetings or portfolio links. Drag to reorder.
             </p>
           </li>
           <li>
             <span className="text-foreground font-medium">
-              Pick an accent color and font style
+              Customize appearance
             </span>
-            <p className="text-xs mt-1 ml-4">
-              Choose a color for email and links, or enter a custom hex/rgb
-              value. Select one of the available font styles, or keep the
-              default.
+            <p className="text-xs mt-0.5 ml-4">
+              Pick font style, accent color (preset or custom hex/rgb), and
+              spacing (Compact, Normal, or Relaxed).
             </p>
           </li>
           <li>
-            <span className="text-foreground font-medium">
-              Preview on different devices & themes
-            </span>
-            <p className="text-xs mt-1 ml-4">
-              Toggle between desktop, tablet, and mobile views to see how it
-              looks. Also switch between light and dark themes to ensure
-              readability.
+            <span className="text-foreground font-medium">Preview & test</span>
+            <p className="text-xs mt-0.5 ml-4">
+              Toggle between desktop/tablet/mobile views and light/dark themes
+              to ensure readability across devices.
             </p>
           </li>
           <li>
-            <span className="text-foreground font-medium">
-              Share your configuration (optional)
-            </span>
-            <p className="text-xs mt-1 ml-4">
-              Click "Share" to generate a shareable link. Anyone with the link
-              can load your signature configuration (except the logo). Great for
-              teams or sharing templates!
-            </p>
-          </li>
-          <li>
-            <span className="text-foreground font-medium">Copy and paste</span>
-            <p className="text-xs mt-1 ml-4">
-              Click "Copy Signature" and paste it into your email client's
-              signature settings (e.g., Gmail, Outlook, etc.).
+            <span className="text-foreground font-medium">Share & copy</span>
+            <p className="text-xs mt-0.5 ml-4">
+              Generate a shareable link for teams or copy the signature to paste
+              into your email client (Gmail, Outlook, etc.).
             </p>
           </li>
         </ol>
