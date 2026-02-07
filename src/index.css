@@ -180,4 +180,20 @@
   .animate-preview-change {
     animation: fade-in-preview 0.5s ease-out;
   }
+
+  /* Star dust cursor trail */
+  @keyframes star-dust-fade {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--drift-x), var(--drift-y)) scale(0);
+    }
+  }
+
+  .star-dust-particle {
+    animation: star-dust-fade 0.8s ease-out forwards;
+  }
 }

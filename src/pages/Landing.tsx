@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { EmailTemplate } from "@/components/EmailTemplate";
 import { EmailClientBadge } from "@/components/EmailClientBadge";
@@ -107,9 +107,32 @@ const availableStyles: SignatureStyle[] = [
   "bold",
 ];
 
+interface StarDustParticle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  driftX: number;
+  driftY: number;
+}
+
 const Landing = () => {
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [starDust, setStarDust] = useState<StarDustParticle[]>([]);
+  const particleIdRef = useRef(0);
+
+  // Memoize static stars so they don't move on re-renders
+  const staticStars = useMemo(
+    () =>
+      [...Array(50)].map((_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        opacity: Math.random() * 0.5 + 0.2,
+      })),
+    [],
+  );
 
   useEffect(() => {
     // Set body background to match landing page
@@ -119,6 +142,37 @@ const Landing = () => {
     return () => {
       document.body.style.backgroundColor = "";
     };
+  }, []);
+
+  // Mouse move handler for star dust trail
+  useEffect(() => {
+    let lastTime = Date.now();
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now();
+      // Throttle particle creation to every 50ms
+      if (now - lastTime < 50) return;
+      lastTime = now;
+
+      const particle: StarDustParticle = {
+        id: particleIdRef.current++,
+        x: e.clientX,
+        y: e.clientY,
+        size: Math.random() * 3 + 1, // 1-4px
+        driftX: (Math.random() - 0.5) * 20, // -10 to 10px
+        driftY: (Math.random() - 0.5) * 20,
+      };
+
+      setStarDust((prev) => [...prev, particle]);
+
+      // Remove particle after animation completes
+      setTimeout(() => {
+        setStarDust((prev) => prev.filter((p) => p.id !== particle.id));
+      }, 800);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   // Function to start/restart the auto-cycle interval
@@ -167,16 +221,36 @@ const Landing = () => {
         }}
       />
 
-      {/* Stars */}
+      {/* Static stars */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden bg-[#0a1628]">
-        {[...Array(50)].map((_, i) => (
+        {staticStars.map((star) => (
           <div
-            key={i}
+            key={star.id}
             className="absolute w-px h-px bg-white rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.5 + 0.2,
+              left: `${star.left}%`,
+              top: `${star.top}%`,
+              opacity: star.opacity,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Star dust cursor trail */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {starDust.map((particle) => (
+          <div
+            key={particle.id}
+            className="absolute bg-blue-300 rounded-full star-dust-particle"
+            style={{
+              left: particle.x,
+              top: particle.y,
+              width: particle.size,
+              height: particle.size,
+              // @ts-expect-error - CSS custom properties
+              "--drift-x": `${particle.driftX}px`,
+              "--drift-y": `${particle.driftY}px`,
+              boxShadow: "0 0 4px rgba(147, 197, 253, 0.8)",
             }}
           />
         ))}
